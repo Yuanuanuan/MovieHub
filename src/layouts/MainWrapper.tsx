@@ -106,7 +106,7 @@ const MainWrapper = () => {
         ) : null}
         <div
           ref={slideRef}
-          className="p-5 grid grid-rows-2 grid-flow-col gap-3 overflow-y-scroll no-scrollbar"
+          className="p-5 grid grid-rows-2 grid-flow-col gap-3 overflow-y-scroll no-scrollbar min-h-hit"
         >
           {movieList.map((movie) => {
             return <MainMovieCard key={movie.id} movie={movie} />;
