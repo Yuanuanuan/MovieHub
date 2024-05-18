@@ -1,5 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
+import { useNavigation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 interface MovieInfoRes {
   data: {
@@ -46,15 +48,22 @@ interface MovieInfoRes {
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
+  const navState = useNavigation();
+  const dispatch = useDispatch();
   const info = res.data;
 
-  console.log(info);
+  console.log(navState);
+
+  if (navState.state === "idle") {
+    console.log("123");
+    dispatch({ type: "ONLOAD" });
+  }
 
   const videoUrl =
     import.meta.env.VITE_YOUTUBE_URL + info.videos.results[0]?.key;
 
   function getRating(rate: number) {
-    return (rate / 2).toFixed(2);
+    return rate.toFixed(2);
   }
 
   return (
@@ -74,7 +83,7 @@ function MovieDetails() {
               className="mr-2"
               alt="star icon"
             />
-            {getRating(info.vote_average)} / 5
+            {getRating(info.vote_average)} / 10
           </h3>
           <p className="text-xl leading-9">
             {info.overview || "對不起!沒有相關的電影描述..."}

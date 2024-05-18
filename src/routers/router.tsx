@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
-import MovieDetails from "@/pages/MovieDetails";
 import { getMovieDetails } from "@/api/service";
 import MainLayout from "@/layouts/MainLayout";
+import MovieDetails from "@/pages/MovieDetails";
 
 const router = createBrowserRouter([
   {
