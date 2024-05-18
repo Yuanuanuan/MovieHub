@@ -69,7 +69,7 @@ function MovieDetails() {
   return (
     <main className="w-full h-[100vh]">
       <div className="w-full h-full flex">
-        <div className="w-[40%] h-[70%] px-6 text-white">
+        <div className="w-[40%] h-[70%] flex flex-col px-6 text-white overflow-hidden">
           <h1 className="text-[48px] mb-4">{info.title}</h1>
           <h2 className="text-lg my-2">
             上映日期 :
@@ -85,9 +85,11 @@ function MovieDetails() {
             />
             {getRating(info.vote_average)} / 10
           </h3>
-          <p className="text-xl leading-9">
-            {info.overview || "對不起!沒有相關的電影描述..."}
-          </p>
+          <div className="details-scroll overflow-y-scroll">
+            <p className="text-xl leading-9">
+              {info.overview || "對不起!沒有相關的電影描述..."}
+            </p>
+          </div>
         </div>
         {info.videos.results.length ? (
           <iframe
@@ -97,7 +99,7 @@ function MovieDetails() {
             allowFullScreen
           />
         ) : (
-          <div className="w-[60%] h-[70%] text-white">
+          <div className="w-[60%] h-[70%]  text-white">
             <img
               width={"60%"}
               height={"70%"}

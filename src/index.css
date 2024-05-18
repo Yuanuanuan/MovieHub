@@ -68,6 +68,23 @@ html::-webkit-scrollbar-thumb:hover {
   background: #f0f0f0;
 }
 
+.details-scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.details-scroll::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+.details-scroll::-webkit-scrollbar-thumb {
+  background: #666666;
+  border-radius: 10px;
+}
+
+.details-scroll::-webkit-scrollbar-thumb:hover {
+  background: #f0f0f0;
+}
+
 .main-wrapper:hover .main-movie-card:hover {
   transform: scale(1.05);
   opacity: 1;
