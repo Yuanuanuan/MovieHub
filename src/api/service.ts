@@ -12,6 +12,18 @@ export async function getNowPlayingMovieList(page = 1) {
   }
 }
 
+/** 獲取現正熱映中的電影 */
+export async function getPopularMovieList(page = 1) {
+  try {
+    const res = await instance.get(
+      `/movie/popular?language=zh-TW&page=${page}`
+    );
+    return res.data.results;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 /** 獲取最高評價電影 */
 export async function getTopMovieList(page = 1) {
   try {

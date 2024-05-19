@@ -10,6 +10,15 @@ const Header = () => {
     navigate("/");
   }
 
+  function handleFavorite() {
+    alert("got to favorite page");
+    // navigate('/favorite');
+  }
+
+  function handleLogout() {
+    alert("logout");
+  }
+
   return (
     <header className="w-auto h-16 px-6 flex justify-between items-center bg-black text-white">
       <div
@@ -24,8 +33,18 @@ const Header = () => {
         </h1>
       </div>
       <div className="flex gap-4">
-        <img src={favoriteIcon} alt="favorite icon" />
-        <img src={logoutIcon} alt="logout icon" />
+        <img
+          src={favoriteIcon}
+          className="cursor-pointer"
+          alt="favorite icon"
+          onClick={handleFavorite}
+        />
+        <img
+          src={logoutIcon}
+          className="cursor-pointer"
+          alt="logout icon"
+          onClick={handleLogout}
+        />
       </div>
     </header>
   );

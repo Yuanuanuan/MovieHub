@@ -1,7 +1,5 @@
 import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
-import { useNavigation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 interface MovieInfoRes {
   data: {
@@ -48,16 +46,7 @@ interface MovieInfoRes {
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
-  const navState = useNavigation();
-  const dispatch = useDispatch();
   const info = res.data;
-
-  console.log(navState);
-
-  if (navState.state === "idle") {
-    console.log("123");
-    dispatch({ type: "ONLOAD" });
-  }
 
   const videoUrl =
     import.meta.env.VITE_YOUTUBE_URL + info.videos.results[0]?.key;

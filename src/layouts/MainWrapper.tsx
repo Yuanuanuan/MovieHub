@@ -1,96 +1,87 @@
 import SearchBar from "@/layouts/SearchBar";
 import LeftButton from "@/components/LeftButton";
 import RightButton from "@/components/RightButton";
-import star from "/star.svg";
+import fire from "/fire.svg";
 import popcorn from "/popcorn.svg";
 import newIcon from "/newIcon.svg";
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import { getNowPlayingMovieList, getTopMovieList } from "@/api/service";
+import {
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
+import {
+  getNowPlayingMovieList,
+  getPopularMovieList,
+  getTopMovieList,
+} from "@/api/service";
 import MainMovieCard from "@/components/MainMovieCard";
+import useSlide from "@/hooks/useSlide";
 
-type HeaderType = "newMovie" | "top10" | "5Stars";
+type HeaderType = "newMovie" | "top10" | "hot";
 
 const MainWrapper = () => {
   const [type, setType] = useState<HeaderType>("newMovie");
   const [movieList, setMovieList] = useState<Record<string, string>[]>([]);
-  const [scrollInfo, setScrollInfo] = useState({
-    scrollLeft: 0,
-    totalWidth: Infinity,
-    clientWidth: 0,
-  });
+  const [page, setPage] = useState(1);
   const slideRef = useRef<HTMLDivElement>(null);
+  const {
+    fetchMore,
+    rightBtnVariable,
+    leftBtnVariable,
+    handleClickLeft,
+    handleClickRight,
+  } = useSlide(slideRef);
 
-  /** 點擊左邊箭頭時的執行函式 */
-  function handleClickLeft() {
-    if (slideRef.current) {
-      slideRef.current.scrollBy({
-        left: -1000,
-        behavior: "smooth",
-      });
-    }
-  }
-
-  /** 點擊右邊箭頭時的執行函式 */
-  function handleClickRight() {
-    if (slideRef.current) {
-      slideRef.current.scrollBy({
-        left: 1000,
-        behavior: "smooth",
-      });
-    }
-  }
-
-  /** 處理左右箭頭是否顯示 */
-  useEffect(() => {
-    const slideRefCurrent = slideRef.current;
-
-    const handleScroll = () => {
-      if (slideRefCurrent) {
-        setScrollInfo((prev) => ({
-          ...prev,
-          scrollLeft: slideRefCurrent.scrollLeft,
-          totalWidth: slideRefCurrent.scrollWidth,
-          clientWidth: slideRefCurrent.clientWidth,
-        }));
-      }
-    };
-
-    if (slideRefCurrent) {
-      slideRefCurrent.addEventListener("scroll", handleScroll);
-
-      return () => {
-        slideRefCurrent.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [scrollInfo.clientWidth, scrollInfo.scrollLeft, scrollInfo.totalWidth]);
-
-  /** 獲取最新電影清單 */
-  async function fetchNewMovies() {
-    const res = await getNowPlayingMovieList();
-    console.log(res);
+  const fetchNewMovies = async (page: number) => {
+    const res = await getNowPlayingMovieList(page);
     if (res.length) {
-      setMovieList(res);
+      setMovieList((prev) => prev.concat(res));
     }
-  }
+  };
 
-  /** 獲取 Top 10 電影清單 */
-  async function fetchTop10Movies() {
-    const res = await getTopMovieList();
+  const fetchHotMovies = async (page: number) => {
+    const res = await getPopularMovieList(page);
     if (res.length) {
-      setMovieList(res);
+      setMovieList((prev) => prev.concat(res));
     }
-  }
+  };
 
-  /** 根據不同標籤抓不同資料 */
-  useEffect(() => {
+  const fetchTop10Movies = async (page: number) => {
+    const res = await getTopMovieList(page);
+    if (res.length) {
+      setMovieList((prev) => prev.concat(res));
+    }
+  };
+
+  const fetchMovies = useCallback(async (page: number, type: HeaderType) => {
     if (type === "newMovie") {
-      fetchNewMovies();
+      await fetchNewMovies(page);
     } else if (type === "top10") {
-      fetchTop10Movies();
-    } else if (type === "5Stars") {
-      console.log("5Stars");
+      await fetchTop10Movies(page);
+    } else if (type === "hot") {
+      await fetchHotMovies(page);
     }
+  }, []);
 
+  useEffect(() => {
+    if (fetchMore) {
+      setPage((prev) => prev + 1);
+    }
+  }, [fetchMore]);
+
+  useEffect(() => {
+    fetchMovies(page, type);
+  }, [fetchMovies, page, type]);
+
+  useEffect(() => {
+    setMovieList([]);
+    setPage(1); // Reset to page 1 on type change
+  }, [type]);
+
+  useEffect(() => {
     slideRef.current?.scrollBy({
       left: -1000000,
       behavior: "smooth",
@@ -101,19 +92,16 @@ const MainWrapper = () => {
     <main className="w-full">
       <Header type={type} setType={setType} />
       <section className="relative no-scrollbar">
-        {scrollInfo.scrollLeft ? (
-          <LeftButton handleClickLeft={handleClickLeft} />
-        ) : null}
+        {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
         <div
           ref={slideRef}
-          className="p-5 grid grid-rows-2 grid-flow-col gap-3 overflow-y-scroll no-scrollbar min-h-hit"
+          className="p-5 grid grid-rows-2 grid-flow-col gap-3 overflow-y-scroll no-scrollbar"
         >
           {movieList.map((movie) => {
             return <MainMovieCard key={movie.id} movie={movie} />;
           })}
         </div>
-        {scrollInfo.scrollLeft + scrollInfo.clientWidth <
-          scrollInfo.totalWidth && (
+        {rightBtnVariable && (
           <RightButton handleClickRight={handleClickRight} />
         )}
       </section>
@@ -137,36 +125,58 @@ function Header({
   return (
     <header className="py-4 px-14 flex justify-between items-center">
       <div className="flex gap-6">
-        <button
-          className={`py-1 px-5 rounded-3xl border-none text-2xl cursor-pointer flex justify-center items-center ${
-            type === "newMovie" ? "bg-white text-black" : "bg-black text-white"
-          }`}
-          onClick={() => handleChangeType("newMovie")}
-        >
-          <img src={newIcon} className="w-8 h-8 mr-2" alt="new icon" />
-          <h3>最新電影</h3>
-        </button>
-        <button
-          className={`py-1 px-5 rounded-3xl border-none text-2xl cursor-pointer flex justify-center items-center ${
-            type === "top10" ? "bg-white text-black" : "bg-black text-white"
-          }`}
-          onClick={() => handleChangeType("top10")}
-        >
-          <img src={popcorn} className="w-8 h-8 mr-2" alt="popcorn icon" />
-          <h3>Top10</h3>
-        </button>
-        <button
-          className={`py-1 px-5 rounded-3xl border-none text-2xl cursor-pointer flex justify-center items-center ${
-            type === "5Stars" ? "bg-white text-black" : "bg-black text-white"
-          }`}
-          onClick={() => handleChangeType("5Stars")}
-        >
-          <img src={star} className="w-8 h-8 mr-2" alt="star icon" />
-          <h6>5星好評</h6>
-        </button>
+        <ToolsButton
+          type={type}
+          currentType="newMovie"
+          icon={newIcon}
+          label="最新電影"
+          changeType={handleChangeType}
+        />
+        <ToolsButton
+          type={type}
+          currentType="hot"
+          icon={fire}
+          label="熱門電影"
+          changeType={handleChangeType}
+        />
+        <ToolsButton
+          type={type}
+          currentType="top10"
+          icon={popcorn}
+          label="Top10"
+          changeType={handleChangeType}
+        />
       </div>
       <SearchBar />
     </header>
+  );
+}
+
+interface ToolsButtonProps {
+  type: HeaderType;
+  currentType: HeaderType;
+  icon: string;
+  label: string;
+  changeType: (type: HeaderType) => void;
+}
+
+function ToolsButton(props: ToolsButtonProps) {
+  return (
+    <button
+      className={`py-1 px-5 rounded-3xl border-none text-2xl cursor-pointer flex justify-center items-center ${
+        props.type === props.currentType
+          ? "bg-white text-black"
+          : "bg-black text-white"
+      }`}
+      onClick={() => props.changeType(props.currentType)}
+    >
+      <img
+        src={props.icon}
+        className="w-8 h-8 mx-2 my-1"
+        alt={`${props.icon} icon`}
+      />
+      <h6>{props.label}</h6>
+    </button>
   );
 }
 
