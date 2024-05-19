@@ -91,7 +91,7 @@ const MainWrapper = () => {
   return (
     <main className="w-full">
       <Header type={type} setType={setType} />
-      <section className="relative no-scrollbar">
+      <section className="h-[740px] relative no-scrollbar">
         {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
         <div
           ref={slideRef}

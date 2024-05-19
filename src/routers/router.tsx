@@ -4,10 +4,18 @@ import Login from "@/pages/Login";
 import { getMovieDetails } from "@/api/service";
 import MainLayout from "@/layouts/MainLayout";
 import MovieDetails from "@/pages/MovieDetails";
+import Search from "@/pages/Search";
+
+export const RouthPath = {
+  home: "/",
+  login: "/login",
+  search: "/search",
+  details: "/movieDetails",
+};
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: RouthPath.home,
     element: <MainLayout />,
     children: [
       {
@@ -15,16 +23,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/movieDetails/:id",
+        path: RouthPath.details + "/:id",
         loader: async ({ params }) => {
           return await getMovieDetails(params.id as string);
         },
         element: <MovieDetails />,
       },
+      {
+        path: RouthPath.search,
+        element: <Search />,
+      },
     ],
   },
   {
-    path: "/login",
+    path: RouthPath.login,
     element: <Login />,
   },
 ]);
