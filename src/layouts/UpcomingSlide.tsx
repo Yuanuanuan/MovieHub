@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import MovieCard from "../components/MovieCard";
 import LeftButton from "../components/LeftButton";
 import RightButton from "../components/RightButton";
-import { getUpcomingMovieList } from "../api/service";
+import { getUpcomingMovieList } from "../api/movie";
 import useSlide from "@/hooks/useSlide";
 
 const UpcomingSlide = () => {

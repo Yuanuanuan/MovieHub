@@ -2,7 +2,7 @@ import { RouthPath } from "@/routers/router";
 import { MovieInfo } from "@/utils/module";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getNowPlayingMovieList, searchMovies } from "@/api/service";
+import { getNowPlayingMovieList, searchMovies } from "@/api/movie";
 
 let timer: number;
 

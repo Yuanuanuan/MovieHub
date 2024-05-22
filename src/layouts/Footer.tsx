@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="mt-12 w-full h-16 flex justify-center items-center">
+    <footer className="w-full h-16 flex justify-center items-center">
       <h3 className="text-white -rotate-3">
         © 2024 Movie_Hub. All Rights Reserved
       </h3>

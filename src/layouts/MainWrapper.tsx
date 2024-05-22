@@ -16,7 +16,7 @@ import {
   getNowPlayingMovieList,
   getPopularMovieList,
   getTopMovieList,
-} from "@/api/service";
+} from "@/api/movie";
 import MainMovieCard from "@/components/MainMovieCard";
 import useSlide from "@/hooks/useSlide";
 

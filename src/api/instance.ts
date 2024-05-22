@@ -61,4 +61,6 @@ function responseInterceptorsError(err: AxiosError<ApiResponse>) {
   throw err;
 }
 
+export const hideLoadingInstance = createInstance();
+
 export default createInstance({ showLoading: true });

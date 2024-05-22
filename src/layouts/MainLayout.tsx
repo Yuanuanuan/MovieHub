@@ -45,7 +45,9 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className="w-full min-h-[calc(100vh-64px)]">
+        <Outlet />
+      </div>
       <Footer />
       {loading && <Loading />}
     </>
