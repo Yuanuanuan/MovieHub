@@ -9,9 +9,12 @@ export interface MovieInfo {
   title: string;
   release_date: string;
   vote_average: number;
-  videos?: MovieVideos;
-  reviews?: MovieReviews;
-  credits?: MovieCredits;
+}
+
+export interface MovieDetails extends MovieInfo {
+  videos: MovieVideos;
+  reviews: MovieReviews;
+  credits: MovieCredits;
 }
 
 export interface MovieVideos {

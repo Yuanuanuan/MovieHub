@@ -1,11 +1,11 @@
 import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
 import CastSlide from "@/components/CastSlide";
-import { MovieInfoRes, MovieInfo } from "@/utils/module";
+import { MovieInfoRes, IMovieDetails } from "@/utils/module";
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
-  const info = res.data;
+  const info = res.data as IMovieDetails;
 
   return (
     <main className="w-full h-full text-white">
@@ -19,7 +19,7 @@ function MovieDetails() {
   );
 }
 
-function DetailsLeftSide({ info }: { info: MovieInfo }) {
+function DetailsLeftSide({ info }: { info: IMovieDetails }) {
   function getRating(rate: number) {
     return rate.toFixed(2);
   }
@@ -49,7 +49,7 @@ function DetailsLeftSide({ info }: { info: MovieInfo }) {
   );
 }
 
-function DetailsRightSide({ info }: { info: MovieInfo }) {
+function DetailsRightSide({ info }: { info: IMovieDetails }) {
   const videoUrl =
     import.meta.env.VITE_YOUTUBE_URL + info.videos.results[0]?.key;
   return (
