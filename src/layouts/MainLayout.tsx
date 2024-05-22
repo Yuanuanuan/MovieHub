@@ -9,13 +9,16 @@ import { useEffect } from "react";
 interface MainSelectorType {
   main: {
     loading: boolean;
+    requestCount: number;
   };
 }
 
 export default function MainLayout() {
   const navState = useNavigation();
   const dispatch = useDispatch();
-  const loading = useSelector((state: MainSelectorType) => state.main.loading);
+  const { loading, requestCount } = useSelector(
+    (state: MainSelectorType) => state.main
+  );
 
   useEffect(() => {
     if (navState.state === "loading") {
@@ -24,6 +27,20 @@ export default function MainLayout() {
       dispatch({ type: "OUTLOAD" });
     }
   }, [dispatch, navState]);
+
+  useEffect(() => {
+    let timer = 0;
+    if (requestCount > 0) {
+      clearTimeout(timer);
+      if (!timer) {
+        dispatch({ type: "ONLOAD" });
+      }
+    } else {
+      timer = setTimeout(() => {
+        dispatch({ type: "OUTLOAD" });
+      }, 0);
+    }
+  }, [dispatch, requestCount]);
 
   return (
     <>

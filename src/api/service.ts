@@ -48,6 +48,7 @@ export async function getUpcomingMovieList(page = 1) {
   }
 }
 
+/** 獲取電影詳情 */
 export async function getMovieDetails(id: string) {
   try {
     const res = await instance.get(
@@ -59,6 +60,7 @@ export async function getMovieDetails(id: string) {
   }
 }
 
+/** 搜尋電影 */
 export async function searchMovies(searchText: string, page = 1) {
   try {
     const res = await instance.get(
