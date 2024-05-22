@@ -11,7 +11,7 @@ export interface MovieInfo {
   vote_average: number;
 }
 
-export interface MovieDetails extends MovieInfo {
+export interface IMovieDetails extends MovieInfo {
   videos: MovieVideos;
   reviews: MovieReviews;
   credits: MovieCredits;
