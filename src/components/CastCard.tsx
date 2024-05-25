@@ -1,19 +1,13 @@
 import { MovieCast } from "@/utils/module";
 import menImg from "/men.jpg";
 import womenImg from "/women.jfif";
-import { getPersonDetails } from "@/api/person";
 import { Link } from "react-router-dom";
 
 function CastCard({ person }: { person: MovieCast }) {
   const personImg = getPersonImage(person);
 
-  async function handleClick() {
-    const res = await getPersonDetails(person.id);
-    console.log(res);
-  }
-
   return (
-    <div className="w-[240px] h-fit rounded-2xl" onClick={handleClick}>
+    <div className="w-[240px] h-fit rounded-2xl">
       <div className="w-full h-[320px]">
         <Link to={`/person/${person.id}`}>
           <img

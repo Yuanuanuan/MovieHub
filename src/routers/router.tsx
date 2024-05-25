@@ -7,6 +7,7 @@ import MovieDetails from "@/pages/MovieDetails";
 import Search from "@/pages/Search";
 import PersonDetails from "@/pages/PersonDetails";
 import Favorite from "@/pages/Favorite";
+import { getPersonDetails } from "@/api/person";
 
 export const RouthPath = {
   home: "/",
@@ -31,10 +32,6 @@ const router = createBrowserRouter([
         element: <Favorite />,
       },
       {
-        path: RouthPath.person + "/:id",
-        element: <PersonDetails />,
-      },
-      {
         path: RouthPath.search,
         element: <Search />,
       },
@@ -46,6 +43,13 @@ const router = createBrowserRouter([
       return await getMovieDetails(params.id as string);
     },
     element: <MovieDetails />,
+  },
+  {
+    path: RouthPath.person + "/:id",
+    loader: async ({ params }) => {
+      return await getPersonDetails(Number(params.id));
+    },
+    element: <PersonDetails />,
   },
   {
     path: RouthPath.login,

@@ -97,7 +97,6 @@ html::-webkit-scrollbar-thumb:hover {
 .hr {
   width: 85%;
   height: 4px;
-  margin: 40px;
   border: none;
   background: linear-gradient(90deg, #cf2b22, #141414);
 }

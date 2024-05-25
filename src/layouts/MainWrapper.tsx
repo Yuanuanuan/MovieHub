@@ -104,7 +104,7 @@ const MainWrapper = () => {
           <RightButton handleClickRight={handleClickRight} />
         )}
       </section>
-      <hr className="hr" />
+      <hr className="hr m-10" />
     </main>
   );
 };

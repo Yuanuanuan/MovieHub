@@ -1,37 +1,23 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
 import CastSlide from "@/components/CastSlide";
-import backIcon from "/back.svg";
 import { MovieInfoRes, IMovieDetails } from "@/utils/module";
+import HeaderWithBack from "@/components/HeaderWithBack";
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
-  const navigate = useNavigate();
   const info = res.data as IMovieDetails;
-
-  function handleBack() {
-    navigate(-1);
-  }
 
   return (
     <main className="w-full h-full text-white mb-16 px-16">
-      <header className="w-full h-20 flex items-center">
-        <img
-          width={48}
-          height={48}
-          src={backIcon}
-          className="ml-4 cursor-pointer"
-          alt="back icon"
-          onClick={handleBack}
-        />
-      </header>
+      <HeaderWithBack />
       <div className="w-full h-[70vh] flex">
         <DetailsLeftSide info={info} />
         <DetailsRightSide info={info} />
       </div>
-      <hr className="hr" />
+      <hr className="hr my-10" />
       <CastSlide cast={info.credits.cast} />
-      <hr className="hr" />
+      <hr className="hr my-10" />
     </main>
   );
 }
