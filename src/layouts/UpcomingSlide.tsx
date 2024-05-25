@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import MovieCard from "../components/MovieCard";
+import MovieCard from "../components/MainMovieCard";
 import LeftButton from "../components/LeftButton";
 import RightButton from "../components/RightButton";
 import { getUpcomingMovieList } from "../api/movie";
@@ -15,8 +15,8 @@ const UpcomingSlide = () => {
     handleClickRight,
   } = useSlide(slideRef);
 
-  async function fetchTopMovieData() {
-    const res = await getUpcomingMovieList();
+  async function fetchTopMovieData(page = 1) {
+    const res = await getUpcomingMovieList(page);
     setMovieList(res);
   }
 
@@ -26,23 +26,16 @@ const UpcomingSlide = () => {
 
   return (
     <>
-      <h2 className="text-white text-5xl ml-10 mb-6">即將上映</h2>
+      <h2 className="text-white text-5xl ml-4 mb-2">即將上映</h2>
       <section className="relative no-scrollbar">
         {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
         <div
           ref={slideRef}
-          className="px-4 grid grid-flow-col gap-3 overflow-scroll no-scrollbar"
+          className="px-4 py-4 grid grid-flow-col gap-3 overflow-scroll no-scrollbar"
         >
           {movieList?.length
             ? movieList.map((movie) => {
-                return (
-                  <MovieCard
-                    key={movie.id}
-                    title={movie.title}
-                    src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
-                    release_date={movie.release_date}
-                  />
-                );
+                return <MovieCard key={movie.id} movie={movie} />;
               })
             : null}
         </div>
@@ -50,6 +43,7 @@ const UpcomingSlide = () => {
           <RightButton handleClickRight={handleClickRight} />
         )}
       </section>
+      <hr className="hr" />
     </>
   );
 };

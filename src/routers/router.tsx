@@ -6,9 +6,11 @@ import MainLayout from "@/layouts/MainLayout";
 import MovieDetails from "@/pages/MovieDetails";
 import Search from "@/pages/Search";
 import PersonDetails from "@/pages/PersonDetails";
+import Favorite from "@/pages/Favorite";
 
 export const RouthPath = {
   home: "/",
+  favorite: "/favorite",
   login: "/login",
   search: "/search",
   details: "/movieDetails",
@@ -25,11 +27,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: RouthPath.details + "/:id",
-        loader: async ({ params }) => {
-          return await getMovieDetails(params.id as string);
-        },
-        element: <MovieDetails />,
+        path: RouthPath.favorite,
+        element: <Favorite />,
       },
       {
         path: RouthPath.person + "/:id",
@@ -40,6 +39,13 @@ const router = createBrowserRouter([
         element: <Search />,
       },
     ],
+  },
+  {
+    path: RouthPath.details + "/:id",
+    loader: async ({ params }) => {
+      return await getMovieDetails(params.id as string);
+    },
+    element: <MovieDetails />,
   },
   {
     path: RouthPath.login,

@@ -7,10 +7,13 @@ export default {
         playFair: ["Playfair Display", "serif"],
         notoSans: ["Noto Sans TC", "serif"],
         notoSerif: ["Noto Serif TC", "serif"],
+        freeman: ["Freeman", "serif"],
+        roboto: ["Roboto", "serif"],
       },
       colors: {
         white: "#f0f0f0",
         black: "#141414",
+        primary: "#F13127",
       },
     },
   },

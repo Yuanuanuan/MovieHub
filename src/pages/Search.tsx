@@ -1,12 +1,13 @@
 import { RouthPath } from "@/routers/router";
 import { MovieInfo } from "@/utils/module";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getNowPlayingMovieList, searchMovies } from "@/api/movie";
 
 let timer: number;
 
 function Search() {
+  const searchInput = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
   const [movieList, setMovieList] = useState<MovieInfo[]>([]);
 
@@ -36,10 +37,15 @@ function Search() {
     };
   }, [fetchAllMovie, fetchData, search]);
 
+  useEffect(() => {
+    searchInput.current?.focus();
+  }, []);
+
   return (
     <section className="w-full h-full flex flex-col text-white">
       <div className="w-full h-12 mb-6 flex justify-center">
         <input
+          ref={searchInput}
           className="w-[500px] h-[45px] bg-white text-black rounded-[45px] pl-4 bg-transparent border-none outline-none text-xl"
           type="text"
           placeholder="搜尋電影名稱..."

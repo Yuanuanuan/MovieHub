@@ -1,20 +1,37 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import starIcon from "/star.svg";
 import CastSlide from "@/components/CastSlide";
+import backIcon from "/back.svg";
 import { MovieInfoRes, IMovieDetails } from "@/utils/module";
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
+  const navigate = useNavigate();
   const info = res.data as IMovieDetails;
 
+  function handleBack() {
+    navigate(-1);
+  }
+
   return (
-    <main className="w-full h-full text-white">
+    <main className="w-full h-full text-white mb-16 px-16">
+      <header className="w-full h-20 flex items-center">
+        <img
+          width={48}
+          height={48}
+          src={backIcon}
+          className="ml-4 cursor-pointer"
+          alt="back icon"
+          onClick={handleBack}
+        />
+      </header>
       <div className="w-full h-[70vh] flex">
         <DetailsLeftSide info={info} />
         <DetailsRightSide info={info} />
       </div>
-      <hr className="h-[5px] mx-8 my-12 rounded-xl bg-[#999999] border-none" />
+      <hr className="hr" />
       <CastSlide cast={info.credits.cast} />
+      <hr className="hr" />
     </main>
   );
 }
@@ -23,6 +40,13 @@ function DetailsLeftSide({ info }: { info: IMovieDetails }) {
   function getRating(rate: number) {
     return rate.toFixed(2);
   }
+
+  function getRuntime() {
+    const hours = Math.floor(info.runtime / 60) || 0;
+    const mins = info.runtime % 60 || 0;
+    return hours + "小時" + mins + "分鐘";
+  }
+
   return (
     <div className="w-[40%] h-full flex flex-col px-6  overflow-hidden">
       <h1 className="text-[48px] mb-4">{info.title}</h1>
@@ -30,6 +54,7 @@ function DetailsLeftSide({ info }: { info: IMovieDetails }) {
         上映日期 :
         <span className="text-slate-400 ml-4">{info.release_date}</span>
       </h2>
+      <h4 className="text-md tracking-wider mb-2">{getRuntime()}</h4>
       <h3 className="flex items-center mb-6">
         <img
           width={24}

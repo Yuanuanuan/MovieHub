@@ -5,15 +5,7 @@ import { getPersonDetails } from "@/api/person";
 import { Link } from "react-router-dom";
 
 function CastCard({ person }: { person: MovieCast }) {
-  let personImg = import.meta.env.VITE_IMAGE_URL + person.profile_path;
-
-  if (!person.profile_path) {
-    if (person.gender === 1) {
-      personImg = womenImg;
-    } else {
-      personImg = menImg;
-    }
-  }
+  const personImg = getPersonImage(person);
 
   async function handleClick() {
     const res = await getPersonDetails(person.id);
@@ -40,3 +32,15 @@ function CastCard({ person }: { person: MovieCast }) {
 }
 
 export default CastCard;
+
+/** 獲取演員圖像 */
+function getPersonImage(person: MovieCast) {
+  if (person.profile_path)
+    return import.meta.env.VITE_IMAGE_URL + person.profile_path;
+
+  if (person.gender === 1) {
+    return womenImg;
+  } else {
+    return menImg;
+  }
+}

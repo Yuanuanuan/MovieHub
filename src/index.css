@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&family=Freeman&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -92,4 +92,12 @@ html::-webkit-scrollbar-thumb:hover {
 
 .main-wrapper:hover .main-movie-card:not(:hover) {
   opacity: 0.8;
+}
+
+.hr {
+  width: 85%;
+  height: 4px;
+  margin: 40px;
+  border: none;
+  background: linear-gradient(90deg, #cf2b22, #141414);
 }

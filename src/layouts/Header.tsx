@@ -1,50 +1,76 @@
-import logoIcon from "/logo.svg";
-import favoriteIcon from "/favorite.svg";
-import logoutIcon from "/logout.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { RouthPath } from "@/routers/router";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import BaseButton from "@/components/BaseButton";
+import SearchIcon from "@/components/SearchIcon";
+import Logo from "@/components/Logo";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState<"home" | "favorite">("home");
 
   function handleGoHome() {
     navigate("/");
   }
 
-  function handleFavorite() {
-    alert("got to favorite page");
-    // navigate('/favorite');
-  }
-
-  function handleLogout() {
-    alert("logout");
-  }
+  useEffect(() => {
+    if (location.pathname.includes("favorite")) {
+      setCurrentPage("favorite");
+      return;
+    }
+    setCurrentPage("home");
+  }, [location]);
 
   return (
-    <header className="w-auto h-16 px-6 flex justify-between items-center bg-black text-white">
+    <header className="w-auto h-20 px-6 flex justify-between items-center bg-black text-white">
       <div
         className="flex gap-4 items-center cursor-pointer"
         onClick={handleGoHome}
       >
-        <img className="w-9 h-9" src={logoIcon} alt="logo icon" />
-        <h1
-          className={`ml-1 text-3xl text-[#ffe998] tracking-wider font-black font-playFair`}
-        >
-          Movie_Hub
-        </h1>
+        <Logo />
       </div>
-      <div className="flex gap-4">
-        <img
-          src={favoriteIcon}
-          className="cursor-pointer"
-          alt="favorite icon"
-          onClick={handleFavorite}
-        />
-        <img
-          src={logoutIcon}
-          className="cursor-pointer"
-          alt="logout icon"
-          onClick={handleLogout}
-        />
+      <div className="flex">
+        <ul className="flex items-center gap-32">
+          <li
+            className={`text-2xl font-bold cursor-pointer font-Roboto ${
+              currentPage === "home" && "text-primary"
+            }`}
+          >
+            <Link
+              to={RouthPath.home}
+              className="relative after:absolute after:w-full after:h-1 after:bg-primary after:bottom-[-5px] after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500 after:ease-in-out hover:text-primary"
+            >
+              Home
+            </Link>
+          </li>
+          <li
+            className={`text-2xl font-bold cursor-pointer font-Roboto ${
+              currentPage === "favorite" && "text-primary"
+            }`}
+          >
+            <Link
+              to={RouthPath.favorite}
+              className="relative after:absolute after:w-full after:h-1 after:bg-primary after:bottom-[-5px] after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500 after:ease-in-out hover:text-primary"
+            >
+              Favorite
+            </Link>
+          </li>
+          <li>
+            <SearchIcon className="w-8 h-8 fill-white cursor-pointer" />
+          </li>
+          <li>
+            <BaseButton>
+              <Link
+                to={RouthPath.login}
+                className="text-xl font-roboto font-semibold"
+              >
+                Sign In
+              </Link>
+            </BaseButton>
+          </li>
+        </ul>
       </div>
     </header>
   );

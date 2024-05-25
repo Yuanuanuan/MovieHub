@@ -9,6 +9,7 @@ export interface MovieInfo {
   title: string;
   release_date: string;
   vote_average: number;
+  runtime: number;
 }
 
 export interface IMovieDetails extends MovieInfo {

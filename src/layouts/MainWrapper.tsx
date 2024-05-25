@@ -1,4 +1,3 @@
-import SearchBar from "@/layouts/SearchBar";
 import LeftButton from "@/components/LeftButton";
 import RightButton from "@/components/RightButton";
 import fire from "/fire.svg";
@@ -97,15 +96,15 @@ const MainWrapper = () => {
           ref={slideRef}
           className="p-5 grid grid-rows-2 grid-flow-col gap-3 overflow-y-scroll no-scrollbar"
         >
-          {movieList.map((movie) => {
-            return <MainMovieCard key={movie.id} movie={movie} />;
+          {movieList.map((movie, index) => {
+            return <MainMovieCard key={index} movie={movie} />;
           })}
         </div>
         {rightBtnVariable && (
           <RightButton handleClickRight={handleClickRight} />
         )}
       </section>
-      <hr className="h-1 m-10 border-none bg-[#666666]" />
+      <hr className="hr" />
     </main>
   );
 };
@@ -123,7 +122,7 @@ function Header({
   }
 
   return (
-    <header className="py-4 px-14 flex justify-between items-center">
+    <header className="py-4 px-5 flex justify-between items-center">
       <div className="flex gap-6">
         <ToolsButton
           type={type}
@@ -147,7 +146,6 @@ function Header({
           changeType={handleChangeType}
         />
       </div>
-      <SearchBar />
     </header>
   );
 }
