@@ -61,7 +61,7 @@ function SocialMedia({ externalIds }: { externalIds: PersonExternalIds }) {
         {socialMediaList.map((media, index) => {
           return (
             media.id && (
-              <li key={index} className="hover:-scale-y-110">
+              <li key={index} className="hover:scale-110">
                 <Link to={media.url + media.id} target="_blank">
                   <img
                     width={48}
