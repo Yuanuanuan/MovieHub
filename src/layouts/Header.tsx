@@ -12,7 +12,11 @@ const Header = () => {
   const [currentPage, setCurrentPage] = useState<"home" | "favorite">("home");
 
   function handleGoHome() {
-    navigate("/");
+    navigate(RouthPath.home);
+  }
+
+  function handleSearch() {
+    navigate(RouthPath.search);
   }
 
   useEffect(() => {
@@ -57,7 +61,7 @@ const Header = () => {
               Favorite
             </Link>
           </li>
-          <li>
+          <li onClick={handleSearch}>
             <SearchIcon className="w-8 h-8 fill-white cursor-pointer" />
           </li>
           <li>

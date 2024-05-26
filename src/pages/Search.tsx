@@ -42,7 +42,7 @@ function Search() {
   }, []);
 
   return (
-    <section className="w-full h-full flex flex-col text-white">
+    <section className="w-full h-full flex flex-col mb-20 text-white">
       <div className="w-full h-12 mb-6 flex justify-center">
         <input
           ref={searchInput}
