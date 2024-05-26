@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
-import CastSlide from "@/components/CastSlide";
+import CastSlide from "@/layouts/CastSlide";
 import { MovieInfoRes, IMovieDetails } from "@/utils/module";
 import HeaderWithBack from "@/components/HeaderWithBack";
 

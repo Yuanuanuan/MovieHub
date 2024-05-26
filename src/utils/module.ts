@@ -43,11 +43,11 @@ export interface MovieCast {
 
 /** 獲取演員的社群資料回傳格式 */
 export interface PersonInfoRes {
-  data: PersonInfo;
+  data: IPersonInfo;
 }
 
 /** 演員的資料 */
-export interface PersonInfo {
+export interface IPersonInfo {
   id: number;
   gender: 1 | 2;
   name: string;

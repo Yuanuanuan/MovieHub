@@ -1,10 +1,7 @@
+import { MovieInfo } from "@/utils/module";
 import { Link } from "react-router-dom";
 
-const MainMovieCard = ({
-  movie,
-}: {
-  movie: Record<string, string | number>;
-}) => {
+const MainMovieCard = ({ movie }: { movie: MovieInfo }) => {
   return (
     <div key={movie.id} className="w-60 h-[350px] relative main-wrapper">
       <Link to={`/movieDetails/${movie.id}`}>

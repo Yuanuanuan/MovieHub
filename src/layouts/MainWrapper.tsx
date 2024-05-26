@@ -16,14 +16,15 @@ import {
   getPopularMovieList,
   getTopMovieList,
 } from "@/api/movie";
-import MainMovieCard from "@/components/MainMovieCard";
+import MainMovieCard from "@/components/MovieCard";
 import useSlide from "@/hooks/useSlide";
+import { MovieInfo } from "@/utils/module";
 
 type HeaderType = "newMovie" | "top10" | "hot";
 
 const MainWrapper = () => {
   const [type, setType] = useState<HeaderType>("newMovie");
-  const [movieList, setMovieList] = useState<Record<string, string>[]>([]);
+  const [movieList, setMovieList] = useState<MovieInfo[]>([]);
   const [page, setPage] = useState(1);
   const slideRef = useRef<HTMLDivElement>(null);
   const {
@@ -77,7 +78,7 @@ const MainWrapper = () => {
 
   useEffect(() => {
     setMovieList([]);
-    setPage(1); // Reset to page 1 on type change
+    setPage(1);
   }, [type]);
 
   useEffect(() => {

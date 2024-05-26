@@ -38,7 +38,7 @@ const Footer = () => {
         </div>
       </section>
       <h3 className="text-white -rotate-3 h-16">
-        © 2024 Movie_Hub. All Rights Reserved
+        © 2024 MovieHub. All Rights Reserved
       </h3>
     </footer>
   );

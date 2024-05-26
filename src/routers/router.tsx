@@ -35,21 +35,21 @@ const router = createBrowserRouter([
         path: RouthPath.search,
         element: <Search />,
       },
+      {
+        path: RouthPath.details + "/:id",
+        loader: async ({ params }) => {
+          return await getMovieDetails(params.id as string);
+        },
+        element: <MovieDetails />,
+      },
+      {
+        path: RouthPath.person + "/:id",
+        loader: async ({ params }) => {
+          return await getPersonDetails(Number(params.id));
+        },
+        element: <PersonDetails />,
+      },
     ],
-  },
-  {
-    path: RouthPath.details + "/:id",
-    loader: async ({ params }) => {
-      return await getMovieDetails(params.id as string);
-    },
-    element: <MovieDetails />,
-  },
-  {
-    path: RouthPath.person + "/:id",
-    loader: async ({ params }) => {
-      return await getPersonDetails(Number(params.id));
-    },
-    element: <PersonDetails />,
   },
   {
     path: RouthPath.login,
