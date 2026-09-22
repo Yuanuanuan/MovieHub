@@ -9,6 +9,7 @@ export default {
         notoSerif: ["Noto Serif TC", "serif"],
         freeman: ["Freeman", "serif"],
         roboto: ["Roboto", "serif"],
+        bebas: ["Bebas Neue", "sans-serif"],
       },
       colors: {
         white: "#f0f0f0",
