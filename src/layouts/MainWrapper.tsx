@@ -91,7 +91,7 @@ const MainWrapper = () => {
   return (
     <main className="w-full">
       <Header type={type} setType={setType} />
-      <section className="h-[740px] relative no-scrollbar">
+      <section id="row-tabs" className="h-[740px] relative no-scrollbar">
         {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
         <div
           ref={slideRef}
@@ -110,7 +110,7 @@ const MainWrapper = () => {
   );
 };
 
-/** 主頁中主要部份的header(搜尋欄的部分) */
+/** Header for the main section of the home page (search bar area) */
 function Header({
   type,
   setType,
@@ -129,14 +129,14 @@ function Header({
           type={type}
           currentType="newMovie"
           icon={newIcon}
-          label="最新電影"
+          label="New"
           changeType={handleChangeType}
         />
         <ToolsButton
           type={type}
           currentType="hot"
           icon={fire}
-          label="熱門電影"
+          label="Popular"
           changeType={handleChangeType}
         />
         <ToolsButton

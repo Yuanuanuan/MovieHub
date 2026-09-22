@@ -18,7 +18,7 @@ function UpcomingSlide() {
 
   return (
     <>
-      <h2 className="text-white text-5xl ml-4 mb-2">即將上映</h2>
+      <h2 className="text-white text-5xl ml-4 mb-2">Coming Soon</h2>
       <Slide>
         <>
           {movieList?.length
