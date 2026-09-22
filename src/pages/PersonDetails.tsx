@@ -8,7 +8,6 @@ import MovieCard from "@/components/MovieCard";
 function PersonDetails() {
   const res = useLoaderData() as PersonInfoRes;
   const personInfo = res.data as IPersonInfo;
-  console.log(personInfo);
 
   return (
     <main className="w-full h-full text-white mb-16 px-16 max-w-[1400px] m-auto">

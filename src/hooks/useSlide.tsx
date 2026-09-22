@@ -35,7 +35,6 @@ function useSlide(slideRef: React.RefObject<HTMLDivElement>) {
   }
 
   useEffect(() => {
-    console.log("slideRef change");
     const slideRefCurrent = slideRef.current;
 
     const handleScroll = () => {

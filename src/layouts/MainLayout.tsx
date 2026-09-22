@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface MainSelectorType {
   main: {
@@ -28,18 +28,18 @@ export default function MainLayout() {
     }
   }, [dispatch, navState]);
 
+  const outloadTimer = useRef(0);
+
   useEffect(() => {
-    let timer = 0;
     if (requestCount > 0) {
-      clearTimeout(timer);
-      if (!timer) {
-        dispatch({ type: "ONLOAD" });
-      }
+      window.clearTimeout(outloadTimer.current);
+      dispatch({ type: "ONLOAD" });
     } else {
-      timer = setTimeout(() => {
+      outloadTimer.current = window.setTimeout(() => {
         dispatch({ type: "OUTLOAD" });
       }, 0);
     }
+    return () => window.clearTimeout(outloadTimer.current);
   }, [dispatch, requestCount]);
 
   return (
