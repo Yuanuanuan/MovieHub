@@ -2,20 +2,37 @@ export interface MovieInfoRes {
   data: MovieInfo;
 }
 
-/** 電影的資料 */
+/** Movie data */
 export interface MovieInfo {
   id: string;
   poster_path: string;
+  backdrop_path: string;
   overview: string;
   title: string;
   release_date: string;
   vote_average: number;
   runtime: number;
+  genre_ids?: number[];
+}
+
+/** Genre */
+export interface IGenre {
+  id: number;
+  name: string;
 }
 
 export interface IMovieDetails extends MovieInfo {
   videos: MovieVideos;
   credits: MovieCredits;
+  genres: IGenre[];
+}
+
+/** Movie summary stored in the favorites list — renders without an extra API call */
+export interface FavoriteMovie {
+  id: string;
+  title: string;
+  poster_path: string;
+  vote_average: number;
 }
 
 /** 電影的影片資料 */
