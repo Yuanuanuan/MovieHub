@@ -7,18 +7,18 @@ import { type IPersonInfo } from "@/utils/module";
 
 function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
   return (
-    <div className="w-full h-fit flex gap-32">
+    <div className="w-full h-fit flex flex-col md:flex-row gap-8 md:gap-32">
       <img
         width={"40%"}
         height={"100%"}
         src={getPersonImage(personInfo)}
-        className="max-w-[400px] object-cover rounded-2xl border-primary"
+        className="w-full md:w-[40%] max-w-[400px] object-cover rounded-2xl border-primary"
         style={{
           boxShadow: "-2px -2px 15px #252525, 2px 2px 15px #474747",
         }}
         alt="person image"
       />
-      <div className="w-[60%] h-full font-notoSans">
+      <div className="w-full md:w-[60%] h-full font-notoSans">
         <h1 className="text-5xl">{personInfo.name}</h1>
         <hr className="hr my-8" />
         <h2 className="text-xl my-8 font-bold">

@@ -43,12 +43,12 @@ function Search() {
 
   return (
     <section className="w-full h-full flex flex-col mb-20 text-white">
-      <div className="w-full h-12 mb-6 flex justify-center">
+      <div className="w-full h-12 mb-6 flex justify-center px-4">
         <input
           ref={searchInput}
-          className="w-[500px] h-[45px] bg-white text-black rounded-[45px] pl-4 bg-transparent border-none outline-none text-xl"
+          className="w-full max-w-[500px] h-[45px] bg-white text-black rounded-[45px] pl-4 bg-transparent border-none outline-none text-xl"
           type="text"
-          placeholder="搜尋電影名稱..."
+          placeholder="Search for a movie..."
           onChange={handleChange}
         />
       </div>
@@ -56,12 +56,12 @@ function Search() {
         {movieList.length > 0 ? (
           movieList.map((movie) => {
             return (
-              <div className="w-60 h-[320px]" key={movie.id}>
+              <div className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px]" key={movie.id}>
                 <Link to={RouthPath.details + "/" + movie.id}>
                   <img
                     src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
                     alt="movie poster"
-                    className="w-60 h-[320px] object-cover rounded-md"
+                    className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px] object-cover rounded-md"
                   />
                 </Link>
               </div>
@@ -69,7 +69,7 @@ function Search() {
           })
         ) : (
           <div className="w-full h-[85vh] flex justify-center items-center">
-            <h6 className="font-semibold text-4xl">對不起!找不到符合的電影</h6>
+            <h6 className="font-semibold text-4xl">No matching movies found.</h6>
           </div>
         )}
       </div>

@@ -10,7 +10,7 @@ function PersonDetails() {
   const personInfo = res.data as IPersonInfo;
 
   return (
-    <main className="w-full h-full text-white mb-16 px-16 max-w-[1400px] m-auto">
+    <main className="w-full h-full text-white mb-16 px-4 md:px-16 max-w-[1400px] m-auto">
       <HeaderWithBack />
       <PersonInfo personInfo={personInfo} />
       <hr className="hr my-16" />

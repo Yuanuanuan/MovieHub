@@ -123,8 +123,8 @@ function Header({
   }
 
   return (
-    <header className="py-4 px-5 flex justify-between items-center">
-      <div className="flex gap-6">
+    <header className="py-4 px-2 sm:px-5 flex justify-between items-center">
+      <div className="flex gap-2 sm:gap-4 md:gap-6">
         <ToolsButton
           type={type}
           currentType="newMovie"
@@ -162,7 +162,7 @@ interface ToolsButtonProps {
 function ToolsButton(props: ToolsButtonProps) {
   return (
     <button
-      className={`py-1 px-5 rounded-3xl border-none text-2xl cursor-pointer flex justify-center items-center ${
+      className={`py-1 px-2 sm:px-3 md:px-5 rounded-3xl border-none text-sm sm:text-lg md:text-2xl cursor-pointer flex justify-center items-center ${
         props.type === props.currentType
           ? "bg-white text-black"
           : "bg-black text-white"
@@ -171,7 +171,7 @@ function ToolsButton(props: ToolsButtonProps) {
     >
       <img
         src={props.icon}
-        className="w-8 h-8 mx-2 my-1"
+        className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 mx-1 md:mx-2 my-1"
         alt={`${props.icon} icon`}
       />
       <h6>{props.label}</h6>

@@ -11,7 +11,9 @@ const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
   return (
     <div
       key={movie.id}
-      className={`relative main-wrapper ${rank ? "pl-6" : ""} w-60 h-[350px]`}
+      className={`relative main-wrapper ${
+        rank ? "pl-6" : ""
+      } w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[350px]`}
     >
       {rank && (
         <span
