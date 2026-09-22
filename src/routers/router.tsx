@@ -1,18 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
 import { getMovieDetails } from "@/api/movie";
 import MainLayout from "@/layouts/MainLayout";
 import MovieDetails from "@/pages/MovieDetails";
 import Search from "@/pages/Search";
 import PersonDetails from "@/pages/PersonDetails";
 import Favorite from "@/pages/Favorite";
+import NotFound from "@/pages/NotFound";
+import ErrorBoundaryPage from "@/components/ErrorBoundaryPage";
 import { getPersonDetails } from "@/api/person";
 
 export const RouthPath = {
   home: "/",
   favorite: "/favorite",
-  login: "/login",
   search: "/search",
   details: "/movieDetails",
   person: "/person",
@@ -22,6 +22,7 @@ const router = createBrowserRouter([
   {
     path: RouthPath.home,
     element: <MainLayout />,
+    errorElement: <ErrorBoundaryPage />,
     children: [
       {
         index: true,
@@ -49,11 +50,11 @@ const router = createBrowserRouter([
         },
         element: <PersonDetails />,
       },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: RouthPath.login,
-    element: <Login />,
   },
 ]);
 
