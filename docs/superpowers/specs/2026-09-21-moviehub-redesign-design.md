@@ -16,7 +16,16 @@ genre discovery), and cross-page recommendation flow. Scope for this round:
 - Add **genre browsing** on Home (curated genre rows + quick-jump chips).
 - Add **"you might also like"** recommendations on the Movie Details page.
 - Make the whole app **responsive** (currently desktop-only, fixed pixel
-  widths throughout).
+  widths throughout) — this is a first-class, non-negotiable requirement of
+  this round, not a nice-to-have; see §6.7.
+- Switch new/touched UI copy to **English**. All text this redesign adds or
+  rewrites (buttons, headings, labels, empty states, error pages, curated
+  genre names) is English going forward. TMDB movie requests
+  (`src/api/movie.ts`) use `language=en-US` instead of `zh-TW`. Content the
+  API itself returns in a non-English original language (e.g. no English
+  translation exists for a given field) is left exactly as TMDB returns it —
+  that's a data property, not something the UI translates on its own. See
+  §2 for the exact scope boundary.
 - Fold in a short list of pre-existing small bugs/dead code while touching
   the same files (see §7).
 
@@ -47,6 +56,19 @@ explicitly and why.
   pre-existing compliance gap (TMDB's ToS ask for a "Powered by TMDB"
   credit; MovieHub's `Footer.tsx` doesn't have one). Worth a follow-up, not
   blocking this redesign.
+- No full i18n framework and no app-wide translation sweep. The English-copy
+  switch (§1) is a one-way change scoped to the files this redesign already
+  creates or touches: Home (Hero, genre rows, `MainWrapper.tsx`'s existing
+  tab labels, `UpcomingSlide.tsx`'s row heading), Favorites, Movie Details,
+  the error/404 pages, the curated genre labels, and the two literal strings
+  in `Search.tsx` (already touched there for responsive classes only).
+  Everything else already in Chinese — `src/api/person.ts`, the Person
+  Details page, `src/components/CastCard.tsx`, `src/components/
+  PersonIfno.tsx` (beyond its planned responsive className edit),
+  `src/components/SocialMedia.tsx`, `src/layouts/CastSlide.tsx` — is
+  untouched by this pass and stays Traditional Chinese. This is a deliberate
+  scope boundary, not an oversight; extending the switch there is future
+  work.
 
 ## 3. Dependencies & tooling
 
@@ -180,15 +202,15 @@ unchanged, per §2.
 - Add curated genre quick-links (desktop: hover/focus dropdown next to
   "Home"; mobile: folded into the hamburger panel — see §6.6). These are a
   **fixed, hardcoded list of 8 curated genres with known, stable TMDB genre
-  IDs** (Action=28, Comedy=35, Horror=27, Science Fiction=878, Drama=18,
+  IDs** (Action=28, Comedy=35, Horror=27, Sci-Fi=878, Drama=18,
   Animation=16, Romance=10749, Documentary=99) matching the mockup's chip
   row exactly. This is deliberately *not* a dynamic `/genre/movie/list` call
   — the mockup only ever needed a fixed, curated set (per the resolved scope
   in §3.3), so a hardcoded list is simpler and one fewer network request. If
   a future round wants the full TMDB genre list, that's a small follow-up.
   Clicking a genre scrolls to the matching Home row if one exists (Action,
-  Comedy — see §6.3), otherwise scrolls to the "最新上映" row, same fallback
-  behavior as the mockup.
+  Comedy — see §6.3), otherwise scrolls to the "New Releases" tab section,
+  same fallback behavior as the mockup.
 - Fixes a pre-existing bug while in this file: line ~41 uses
   `font-Roboto` (capital R), which doesn't match the Tailwind config's
   `roboto` key (generates `font-roboto`, lowercase) — the class currently
@@ -228,14 +250,15 @@ exact TMDB image base URL segment without seeing the current `.env`.
 
 ### 6.3 Genre rows on Home
 
-- `MainWrapper.tsx`'s existing tab logic (最新電影/熱門電影/Top10) is
-  unchanged.
+- `MainWrapper.tsx`'s existing tab logic is unchanged in behavior, but its
+  three tab labels switch to English as part of this pass's copy switch
+  (§1): "最新電影"→"New", "熱門電影"→"Popular", "Top10" stays as-is.
 - Two new **fixed** row sections below the existing tabs/rows (not part of
-  the tab switcher — always visible, matching the mockup): "動作片"
-  (`getMoviesByGenre(28)`) and "喜劇片" (`getMoviesByGenre(35)`).
+  the tab switcher — always visible, matching the mockup): "Action"
+  (`getMoviesByGenre(28)`) and "Comedy" (`getMoviesByGenre(35)`).
 - New API function `getMoviesByGenre(genreId, page = 1)` in
   `src/api/movie.ts`, hitting `GET /discover/movie?with_genres={genreId}
-  &language=zh-TW&page={page}` — same `instance`/`hideLoadingInstance`
+  &language=en-US&page={page}` — same `instance`/`hideLoadingInstance`
   pattern as the existing list functions.
 - Rows render through the same `Slide` + `MovieCard` components already
   used elsewhere (no new row-scrolling mechanism — the existing
@@ -269,7 +292,7 @@ exact TMDB image base URL segment without seeing the current `.env`.
   page visit, only when the user actually wants to watch).
 - Add a heart button (`FavoriteButton`) near the title, matching the
   mockup's details-page placement.
-- New "看過這部的人也喜歡" row below the existing `CastSlide`, using a new
+- New "You Might Also Like" row below the existing `CastSlide`, using a new
   `getMovieRecommendations(id, page = 1)` in `src/api/movie.ts`. It calls
   `GET /movie/{id}/recommendations` first; if `results.length === 0`, it
   falls back to `GET /movie/{id}/similar` in the same call (TMDB's
@@ -297,11 +320,11 @@ exact TMDB image base URL segment without seeing the current `.env`.
 - Populated state: grid of `MovieCard`s (reusing the same component, so the
   heart button doubles as "remove from favorites" — clicking it toggles off
   and the card disappears from the grid immediately, same as the mockup).
-- Empty state: icon + "你還沒有收藏任何電影" + a `Link` back to Home —
-  shown whenever `items.length === 0` (this *is* the real empty state, not
-  a side-by-side preview like the mockup's reference panel, since the real
-  page only ever has one state at a time).
-- Header shows the live count ("共 N 部電影已收藏").
+- Empty state: icon + "You haven't favorited any movies yet" + a `Link` back
+  to Home — shown whenever `items.length === 0` (this *is* the real empty
+  state, not a side-by-side preview like the mockup's reference panel, since
+  the real page only ever has one state at a time).
+- Header shows the live count ("N Movies Saved").
 
 ### 6.7 Responsive strategy (all of the above)
 
@@ -349,7 +372,7 @@ Agreed scope (small, low-risk, touching files already in motion):
    network error) or an unmatched URL both render React Router's bare,
    unstyled default error screen. Add:
    - `src/components/ErrorBoundaryPage.tsx` (uses `useRouteError` from
-     `react-router-dom`, shows a message + "回首頁" link, styled
+     `react-router-dom`, shows a message + "Back to Home" link, styled
      consistently with the rest of the dark UI), set as `errorElement` on
      the `MainLayout` route (covers loader failures for `/movieDetails/:id`
      and `/person/:id`).
@@ -397,10 +420,17 @@ redesign is trying to remove.
 - `tailwind.config.js` (add `bebas` font family)
 - `src/index.css` (font `@import` swap — add Bebas Neue, drop Noto Serif
   TC/Playfair Display)
-- `index.html` (`lang="en"` → `lang="zh-TW"` — one-line fix, bundled since
-  it's this trivial)
+- `src/layouts/MainWrapper.tsx` (English tab labels, per §6.3 above — on top
+  of mounting `Hero`/the genre rows)
+- `src/layouts/UpcomingSlide.tsx` (row heading "即將上映" → "Coming Soon")
 - Every layout/page touched above also gets its responsive Tailwind classes
   per §6.7.
+
+Note: `index.html` is **not** modified by this pass. It already has
+`lang="en"` and `<title>Movie_Hub</title>`, both already correct for an
+English UI — an earlier draft of this list called for changing `lang` to
+`zh-TW`, which no longer applies now that the redesign's copy is English
+(§1).
 
 ## 9. Verification plan
 
