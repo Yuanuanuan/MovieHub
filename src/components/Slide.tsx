@@ -18,7 +18,7 @@ const Slide = ({ children }: { children: ReactNode }) => {
         {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
         <div
           ref={slideRef}
-          className="px-4 py-4 grid grid-flow-col gap-3 overflow-scroll no-scrollbar"
+          className="group px-4 py-4 grid grid-flow-col gap-3 overflow-scroll no-scrollbar"
         >
           {children}
         </div>
