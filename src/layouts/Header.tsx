@@ -6,21 +6,11 @@ import { useSelector } from "react-redux";
 import SearchIcon from "@/components/SearchIcon";
 import Logo from "@/components/Logo";
 import { FavoriteMovie } from "@/utils/module";
+import { CURATED_GENRES } from "@/constants/genres";
 
 interface FavoritesSelectorType {
   favorites: { items: FavoriteMovie[] };
 }
-
-const CURATED_GENRES: { id: number; label: string; anchor: string }[] = [
-  { id: 28, label: "Action", anchor: "row-action" },
-  { id: 35, label: "Comedy", anchor: "row-comedy" },
-  { id: 27, label: "Horror", anchor: "row-tabs" },
-  { id: 878, label: "Sci-Fi", anchor: "row-tabs" },
-  { id: 18, label: "Drama", anchor: "row-tabs" },
-  { id: 16, label: "Animation", anchor: "row-tabs" },
-  { id: 10749, label: "Romance", anchor: "row-tabs" },
-  { id: 99, label: "Documentary", anchor: "row-tabs" },
-];
 
 const Header = () => {
   const navigate = useNavigate();
@@ -55,7 +45,7 @@ const Header = () => {
   }, [location]);
 
   return (
-    <header className="w-auto px-4 md:px-6 h-20 flex justify-between items-center bg-black text-white relative">
+    <header className="w-auto px-4 md:px-6 h-20 flex justify-between items-center bg-black/95 backdrop-blur-sm text-white sticky top-0 z-50">
       <div
         className="flex gap-4 items-center cursor-pointer"
         onClick={handleGoHome}
@@ -120,16 +110,40 @@ const Header = () => {
         </li>
       </ul>
 
-      <button
-        type="button"
-        className="md:hidden w-10 h-10 flex items-center justify-center"
-        aria-label="Menu"
-        onClick={() => setMobileMenuOpen((open) => !open)}
-      >
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-          <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-        </svg>
-      </button>
+      <div className="flex items-center gap-1">
+        <Link
+          to={RouthPath.favorite}
+          aria-label="Favorites"
+          className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M12 21s-7.5-4.6-10-9.3C.4 8 2 4.5 5.5 4A5.4 5.4 0 0 1 12 7a5.4 5.4 0 0 1 6.5-3c3.5.5 5 4 3.5 7.7C19.5 16.4 12 21 12 21z" />
+          </svg>
+          {favoriteCount > 0 && (
+            <span className="absolute top-0 right-0 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-white text-[10px] flex items-center justify-center">
+              {favoriteCount}
+            </span>
+          )}
+        </Link>
+
+        <button
+          type="button"
+          className="md:hidden w-10 h-10 flex items-center justify-center"
+          aria-label="Menu"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+          </svg>
+        </button>
+      </div>
 
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 flex flex-col p-4 gap-3 z-50">
