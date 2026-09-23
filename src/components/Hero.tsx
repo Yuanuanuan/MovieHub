@@ -54,7 +54,7 @@ function Hero() {
     }, 5500);
 
     return () => clearInterval(intervalId);
-  }, [candidates.length, playing, hovering, focused]);
+  }, [candidates.length, playing, hovering, focused, activeIndex]);
 
   if (!activeDetails) return null;
 
