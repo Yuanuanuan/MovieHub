@@ -38,14 +38,14 @@ const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
             height={"100%"}
             src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
             className="w-full h-full object-cover cursor-pointer shadow-xl shadow-gray-900 main-movie-card"
-            alt="movie image"
+            alt="電影海報"
           />
           <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity pointer-events-none">
             <h3 className="text-sm font-bold text-white line-clamp-1">
               {movie.title}
             </h3>
             <span className="flex items-center gap-1 text-xs text-yellow-400 font-bold mt-1">
-              <img src={starIcon} width={12} height={12} alt="star icon" />
+              <img src={starIcon} width={12} height={12} alt="星星圖示" />
               {movie.vote_average.toFixed(1)}
             </span>
           </div>

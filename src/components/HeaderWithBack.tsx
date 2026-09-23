@@ -16,7 +16,7 @@ export default function HeaderWithBack() {
         height={48}
         src={backIcon}
         className="ml-4 cursor-pointer"
-        alt="back icon"
+        alt="返回"
         onClick={handleBack}
       />
     </header>

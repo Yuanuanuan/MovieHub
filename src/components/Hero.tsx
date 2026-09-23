@@ -105,7 +105,7 @@ function Hero() {
         <button
           type="button"
           onClick={() => setPlaying(false)}
-          aria-label="Close trailer"
+          aria-label="關閉預告片"
           className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center"
         >
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -117,20 +117,20 @@ function Hero() {
       {!playing && (
         <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 max-w-2xl gap-3">
           <p className="uppercase tracking-widest text-sm text-slate-300 font-bebas">
-            Featured This Week
+            本週精選
           </p>
           <h1 className="text-3xl md:text-5xl font-bold">
             {activeDetails.title}
           </h1>
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
             <span className="flex items-center gap-1 font-bold">
-              <img src={starIcon} width={16} height={16} alt="star icon" />
+              <img src={starIcon} width={16} height={16} alt="星星圖示" />
               {activeDetails.vote_average.toFixed(1)}
             </span>
             <span>{activeDetails.release_date?.slice(0, 4)}</span>
             <span>·</span>
             <span>
-              {hours}h {mins}min
+              {hours}小時{mins}分
             </span>
             <div className="flex flex-wrap gap-2">
               {activeDetails.genres.map((genre) => (
@@ -161,14 +161,14 @@ function Hero() {
                 >
                   <path d="M6 4v16l14-8z" />
                 </svg>
-                Play Trailer
+                播放預告
               </button>
             )}
             <Link
               to={`${RouthPath.details}/${activeDetails.id}`}
               className="py-2.5 px-6 rounded-md bg-white/10 border border-white/30 backdrop-blur-sm"
             >
-              Details
+              詳細資訊
             </Link>
             <FavoriteButton
               movie={{
@@ -185,7 +185,7 @@ function Hero() {
               <button
                 key={index}
                 type="button"
-                aria-label={`Featured ${index + 1}`}
+                aria-label={`精選 ${index + 1}`}
                 aria-current={index === activeIndex}
                 onClick={() => setActiveIndex(index)}
                 className={`w-6 h-1 rounded-full ${

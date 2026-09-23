@@ -63,7 +63,7 @@ const Header = () => {
             to={RouthPath.home}
             className="relative after:absolute after:w-full after:h-1 after:bg-primary after:bottom-[-5px] after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500 after:ease-in-out hover:text-primary"
           >
-            Home
+            首頁
           </Link>
         </li>
         <li className="group relative">
@@ -71,7 +71,7 @@ const Header = () => {
             type="button"
             className="text-xl font-bold flex items-center gap-1"
           >
-            Genres
+            分類
             <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
               <path d="M7 10l5 5 5-5z" />
             </svg>
@@ -97,7 +97,7 @@ const Header = () => {
           }`}
         >
           <Link to={RouthPath.favorite} className="relative flex items-center gap-2">
-            Favorite
+            我的收藏
             {favoriteCount > 0 && (
               <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-white text-xs flex items-center justify-center">
                 {favoriteCount}
@@ -113,7 +113,7 @@ const Header = () => {
       <div className="flex items-center gap-1">
         <Link
           to={RouthPath.favorite}
-          aria-label="Favorites"
+          aria-label="我的收藏"
           className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10"
         >
           <svg
@@ -136,7 +136,7 @@ const Header = () => {
         <button
           type="button"
           className="md:hidden w-10 h-10 flex items-center justify-center"
-          aria-label="Menu"
+          aria-label="選單"
           onClick={() => setMobileMenuOpen((open) => !open)}
         >
           <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
@@ -148,17 +148,17 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 flex flex-col p-4 gap-3 z-50">
           <button type="button" className="text-left text-lg font-bold" onClick={handleGoHome}>
-            Home
+            首頁
           </button>
           <Link
             to={RouthPath.favorite}
             className="text-lg font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
-            Favorite{favoriteCount > 0 ? `(${favoriteCount})` : ""}
+            我的收藏{favoriteCount > 0 ? `(${favoriteCount})` : ""}
           </Link>
           <button type="button" className="text-left text-lg font-bold" onClick={handleSearch}>
-            Search
+            搜尋
           </button>
           <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10">
             {CURATED_GENRES.map((genre) => (

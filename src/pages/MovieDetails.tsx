@@ -33,7 +33,7 @@ function MovieDetails() {
   function getRuntime() {
     const hours = Math.floor(info.runtime / 60) || 0;
     const mins = info.runtime % 60 || 0;
-    return `${hours}h ${mins}min`;
+    return `${hours}小時${mins}分`;
   }
 
   async function handleShare() {
@@ -68,7 +68,7 @@ function MovieDetails() {
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
             <path d="M15 4l-8 8 8 8 1.4-1.4L9.8 12l6.6-6.6z" />
           </svg>
-          Back
+          返回
         </button>
       </div>
 
@@ -87,7 +87,7 @@ function MovieDetails() {
           </h1>
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
             <span className="flex items-center gap-1 font-bold">
-              <img width={16} height={16} src={starIcon} alt="star icon" />
+              <img width={16} height={16} src={starIcon} alt="星星圖示" />
               {getRating(info.vote_average)}
             </span>
             <span>{info.release_date?.slice(0, 4)}</span>
@@ -127,11 +127,11 @@ function MovieDetails() {
               >
                 <path d="M18 8a3 3 0 1 0-2.8-4H15a3 3 0 1 0 .2 4.6L9.9 11a3 3 0 1 0 0 2l5.3 2.4a3 3 0 1 0 .8-1.8L10.7 11a3 3 0 0 0 0-2l5.3-2.4c.3.2.6.3 1 .4z" />
               </svg>
-              {shareCopied ? "Copied!" : "Share"}
+              {shareCopied ? "已複製！" : "分享"}
             </button>
           </div>
           <p className="text-base leading-7 text-slate-300 max-w-2xl">
-            {info.overview || "No description available."}
+            {info.overview || "暫無簡介資料。"}
           </p>
         </div>
       </div>
@@ -152,7 +152,7 @@ function MovieDetails() {
       </div>
       {recommendations.length > 0 && (
         <div className="mb-2">
-          <h3 className="text-4xl ml-6 mb-6">You Might Also Like</h3>
+          <h3 className="text-4xl ml-6 mb-6">看過這部的人也喜歡</h3>
           <Slide>
             {recommendations.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />

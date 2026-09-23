@@ -24,11 +24,11 @@ function TrailerFacade({ videoKey, posterUrl }: TrailerFacadeProps) {
       type="button"
       onClick={() => setPlaying(true)}
       className="relative w-full h-full group"
-      aria-label="Play trailer"
+      aria-label="播放預告片"
     >
       <img
         src={posterUrl}
-        alt="movie poster"
+        alt="電影海報"
         className="w-full h-full object-cover rounded-md brightness-75 group-hover:brightness-90 transition-all"
       />
       <span className="absolute inset-0 flex flex-col items-center justify-center gap-3">
@@ -38,7 +38,7 @@ function TrailerFacade({ videoKey, posterUrl }: TrailerFacadeProps) {
           </svg>
         </span>
         <span className="text-sm tracking-wide text-slate-200">
-          Click to play trailer
+          點擊播放預告片
         </span>
       </span>
     </button>

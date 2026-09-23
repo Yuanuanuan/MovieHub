@@ -16,7 +16,7 @@ function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
         style={{
           boxShadow: "-2px -2px 15px #252525, 2px 2px 15px #474747",
         }}
-        alt="person image"
+        alt="演員照片"
       />
       <div className="w-full md:w-[60%] h-full font-notoSans">
         <h1 className="text-5xl">{personInfo.name}</h1>
@@ -36,7 +36,7 @@ function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
               width={36}
               height={36}
               src={transGender(personInfo.gender)}
-              alt=" gender"
+              alt="性別圖示"
             />
           </span>
         </h4>

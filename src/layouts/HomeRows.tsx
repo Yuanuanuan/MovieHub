@@ -20,33 +20,33 @@ interface RowConfig {
 const ROWS: RowConfig[] = [
   {
     anchorId: "row-new",
-    label: "New Releases",
+    label: "最新上映",
     fetcher: () => getNowPlayingMovieList(),
   },
   {
     anchorId: "row-hot",
-    label: "Popular",
+    label: "熱門電影",
     fetcher: () => getPopularMovieList(),
   },
   {
     anchorId: "row-top10",
-    label: "Top 10 This Week",
+    label: "TOP 10 本週",
     fetcher: () => getTopMovieList(),
     numbered: true,
   },
   {
     anchorId: "row-action",
-    label: "Action",
+    label: "動作片",
     fetcher: () => getMoviesByGenre(28),
   },
   {
     anchorId: "row-comedy",
-    label: "Comedy",
+    label: "喜劇片",
     fetcher: () => getMoviesByGenre(35),
   },
   {
     anchorId: "row-soon",
-    label: "Coming Soon",
+    label: "即將上映",
     fetcher: () => getUpcomingMovieList(),
   },
 ];

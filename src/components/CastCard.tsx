@@ -14,12 +14,14 @@ function CastCard({ person }: { person: MovieCast }) {
       >
         <img
           src={personImg}
-          alt="person image"
+          alt="演員照片"
           className="w-full h-full object-cover cursor-pointer"
         />
       </Link>
       <h4 className="text-sm font-bold text-white mt-3">{person.name}</h4>
-      <h5 className="text-xs text-slate-400">{person.character}</h5>
+      <h5 className="text-xs text-slate-400">
+        {person.character ? `飾 ${person.character}` : ""}
+      </h5>
     </div>
   );
 }

@@ -56,7 +56,7 @@ function FavoriteButton({
         } ${className}`}
       >
         {heartIcon}
-        {isFavorite ? "Favorited" : "Add to Favorites"}
+        {isFavorite ? "已收藏" : "加入收藏"}
       </button>
     );
   }
@@ -65,7 +65,7 @@ function FavoriteButton({
     <button
       type="button"
       onClick={handleClick}
-      aria-label={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      aria-label={isFavorite ? "移除收藏" : "加入收藏"}
       aria-pressed={isFavorite}
       className={`flex items-center justify-center rounded-full transition-colors ${
         isFavorite ? "bg-primary text-white" : "bg-black/55 text-white"

@@ -16,8 +16,8 @@ function Favorite() {
   return (
     <section className="w-full min-h-[70vh] text-white px-4 md:px-16 pb-16">
       <div className="flex items-baseline justify-between flex-wrap gap-2 py-8">
-        <h1 className="text-4xl font-bold">My Favorites</h1>
-        <span className="text-slate-400">{items.length} Movies Saved</span>
+        <h1 className="text-4xl font-bold">我的片單</h1>
+        <span className="text-slate-400">{`${items.length} 部電影已收藏`}</span>
       </div>
 
       {items.length === 0 ? (
@@ -33,16 +33,16 @@ function Favorite() {
             <path d="M12 21s-7.5-4.6-10-9.3C.4 8 2 4.5 5.5 4A5.4 5.4 0 0 1 12 7a5.4 5.4 0 0 1 6.5-3c3.5.5 5 4 3.5 7.7C19.5 16.4 12 21 12 21z" />
           </svg>
           <h3 className="text-white text-xl font-bold">
-            You haven't favorited any movies yet
+            你還沒有收藏任何電影
           </h3>
           <p className="max-w-sm">
-            Tap the heart icon on any poster to save it here.
+            在海報右上角點擊愛心，之後就能在這裡快速回顧想看的片單。
           </p>
           <Link
             to={RouthPath.home}
             className="mt-2 py-3 px-7 rounded-md bg-primary text-white"
           >
-            Browse Movies
+            瀏覽電影
           </Link>
         </div>
       ) : (

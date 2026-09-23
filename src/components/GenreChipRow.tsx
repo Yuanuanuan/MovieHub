@@ -15,7 +15,7 @@ function GenreChipRow() {
         type="button"
         className="flex-none py-2 px-4 rounded-full text-sm font-bold bg-white text-black"
       >
-        All
+        全部
       </button>
       {CURATED_GENRES.map((genre) => (
         <button

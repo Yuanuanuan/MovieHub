@@ -48,7 +48,7 @@ function Search() {
           ref={searchInput}
           className="w-full max-w-[500px] h-[45px] bg-white text-black rounded-[45px] pl-4 bg-transparent border-none outline-none text-xl"
           type="text"
-          placeholder="Search for a movie..."
+          placeholder="搜尋電影名稱..."
           onChange={handleChange}
         />
       </div>
@@ -60,7 +60,7 @@ function Search() {
                 <Link to={RouthPath.details + "/" + movie.id}>
                   <img
                     src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
-                    alt="movie poster"
+                    alt="電影海報"
                     className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px] object-cover rounded-md"
                   />
                 </Link>
@@ -69,7 +69,7 @@ function Search() {
           })
         ) : (
           <div className="w-full h-[85vh] flex justify-center items-center">
-            <h6 className="font-semibold text-4xl">No matching movies found.</h6>
+            <h6 className="font-semibold text-4xl">找不到符合的電影。</h6>
           </div>
         )}
       </div>
