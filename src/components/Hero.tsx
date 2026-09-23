@@ -16,6 +16,8 @@ function Hero() {
     null
   );
   const [playing, setPlaying] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   useEffect(() => {
     getPopularMovieList(1).then((results: MovieInfo[]) => {
@@ -39,6 +41,21 @@ function Hero() {
     setPlaying(false);
   }, [activeIndex]);
 
+  useEffect(() => {
+    if (candidates.length <= 1) return;
+    if (playing || hovering || focused) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const intervalId = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % candidates.length);
+    }, 5500);
+
+    return () => clearInterval(intervalId);
+  }, [candidates.length, playing, hovering, focused]);
+
   if (!activeDetails) return null;
 
   const backdropUrl =
@@ -48,7 +65,17 @@ function Hero() {
   const trailerKey = activeDetails.videos.results[0]?.key;
 
   return (
-    <section className="relative w-full h-[70vh] max-h-[560px] overflow-hidden rounded-2xl mb-10">
+    <section
+      className="relative w-full h-[70vh] max-h-[560px] overflow-hidden rounded-2xl mb-10"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          setFocused(false);
+        }
+      }}
+    >
       <div className="absolute inset-0">
         {playing && trailerKey ? (
           <iframe
