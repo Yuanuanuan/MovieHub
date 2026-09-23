@@ -32,12 +32,12 @@ const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
         to={`/movieDetails/${movie.id}`}
         className="group/card relative z-10 block h-full transition-opacity group-hover:opacity-70 hover:!opacity-100"
       >
-        <div className="relative h-full rounded-[10px] overflow-hidden">
+        <div className="relative h-full rounded-[10px] overflow-hidden transition-transform duration-300 hover:scale-105 hover:-translate-y-1">
           <img
             width={"100%"}
             height={"100%"}
             src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
-            className="w-full h-full object-cover cursor-pointer shadow-xl shadow-gray-900 transition-transform duration-300 hover:scale-105 hover:-translate-y-1 main-movie-card"
+            className="w-full h-full object-cover cursor-pointer shadow-xl shadow-gray-900 main-movie-card"
             alt="movie image"
           />
           <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity pointer-events-none">
