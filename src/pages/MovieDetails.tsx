@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import starIcon from "/star.svg";
 import CastSlide from "@/layouts/CastSlide";
 import Slide from "@/components/Slide";
@@ -8,12 +8,13 @@ import FavoriteButton from "@/components/FavoriteButton";
 import TrailerFacade from "@/components/TrailerFacade";
 import { getMovieRecommendations } from "@/api/movie";
 import { MovieInfoRes, IMovieDetails, MovieInfo } from "@/utils/module";
-import HeaderWithBack from "@/components/HeaderWithBack";
 
 function MovieDetails() {
+  const navigate = useNavigate();
   const res = useLoaderData() as MovieInfoRes;
   const info = res.data as IMovieDetails;
   const [recommendations, setRecommendations] = useState<MovieInfo[]>([]);
+  const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -25,13 +26,123 @@ function MovieDetails() {
     };
   }, [info.id]);
 
+  function getRating(rate: number) {
+    return rate.toFixed(2);
+  }
+
+  function getRuntime() {
+    const hours = Math.floor(info.runtime / 60) || 0;
+    const mins = info.runtime % 60 || 0;
+    return `${hours}h ${mins}min`;
+  }
+
+  async function handleShare() {
+    const shareData = { title: info.title, url: window.location.href };
+    if (navigator.share) {
+      await navigator.share(shareData).catch(() => {});
+      return;
+    }
+    await navigator.clipboard.writeText(shareData.url);
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
+  }
+
   return (
-    <main className="w-full h-full text-white mb-16 px-4 md:px-16">
-      <HeaderWithBack />
-      <div className="w-full flex flex-col md:flex-row md:h-[70vh]">
-        <DetailsLeftSide info={info} />
-        <DetailsRightSide info={info} />
+    <main className="w-full h-full text-white mb-16">
+      <div className="relative h-[220px] sm:h-[300px] mx-4 md:mx-16 rounded-2xl overflow-hidden">
+        <img
+          src={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
+          alt={info.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="absolute top-4 left-4 z-10 flex items-center gap-1.5 py-2 pl-2.5 pr-4 rounded-full bg-black/55 backdrop-blur-sm text-white text-sm font-bold"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M15 4l-8 8 8 8 1.4-1.4L9.8 12l6.6-6.6z" />
+          </svg>
+          Back
+        </button>
       </div>
+
+      <div className="flex flex-col md:flex-row items-start gap-6 px-4 md:px-16">
+        <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">
+          <img
+            src={import.meta.env.VITE_IMAGE_URL + info.poster_path}
+            alt={info.title}
+            className="w-full aspect-[2/3] object-cover rounded-lg shadow-2xl border-4 border-black"
+          />
+        </div>
+
+        <div className="flex-1 flex flex-col gap-4 pt-4">
+          <h1 className="text-[32px] md:text-[44px] font-black leading-tight">
+            {info.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
+            <span className="flex items-center gap-1 font-bold">
+              <img width={16} height={16} src={starIcon} alt="star icon" />
+              {getRating(info.vote_average)}
+            </span>
+            <span>{info.release_date?.slice(0, 4)}</span>
+            <span>·</span>
+            <span>{getRuntime()}</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {info.genres.map((genre) => (
+              <span
+                key={genre.id}
+                className="text-xs px-3 py-1 rounded-full border border-white/20 text-slate-300"
+              >
+                {genre.name}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <FavoriteButton
+              variant="pill"
+              movie={{
+                id: info.id,
+                title: info.title,
+                poster_path: info.poster_path,
+                vote_average: info.vote_average,
+              }}
+            />
+            <button
+              type="button"
+              onClick={handleShare}
+              className="flex items-center gap-2 py-2.5 px-5 rounded-md border border-white/25 text-white hover:border-white/50"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="currentColor"
+              >
+                <path d="M18 8a3 3 0 1 0-2.8-4H15a3 3 0 1 0 .2 4.6L9.9 11a3 3 0 1 0 0 2l5.3 2.4a3 3 0 1 0 .8-1.8L10.7 11a3 3 0 0 0 0-2l5.3-2.4c.3.2.6.3 1 .4z" />
+              </svg>
+              {shareCopied ? "Copied!" : "Share"}
+            </button>
+          </div>
+          <p className="text-base leading-7 text-slate-300 max-w-2xl">
+            {info.overview || "No description available."}
+          </p>
+        </div>
+      </div>
+
+      {info.videos.results.length > 0 && (
+        <div className="px-4 md:px-16 mt-8">
+          <div className="h-[220px] sm:h-[320px] rounded-xl overflow-hidden">
+            <TrailerFacade
+              videoKey={info.videos.results[0]?.key}
+              posterUrl={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
+            />
+          </div>
+        </div>
+      )}
+
       <hr className="hr my-10" />
       <CastSlide cast={info.credits.cast} />
       {recommendations.length > 0 && (
@@ -47,86 +158,6 @@ function MovieDetails() {
       )}
       <hr className="hr my-10" />
     </main>
-  );
-}
-
-function DetailsLeftSide({ info }: { info: IMovieDetails }) {
-  function getRating(rate: number) {
-    return rate.toFixed(2);
-  }
-
-  function getRuntime() {
-    const hours = Math.floor(info.runtime / 60) || 0;
-    const mins = info.runtime % 60 || 0;
-    return `${hours}h ${mins}min`;
-  }
-
-  return (
-    <div className="w-full md:w-[40%] flex flex-col px-6 overflow-hidden">
-      <div className="flex items-start justify-between gap-4">
-        <h1 className="text-[36px] md:text-[48px] mb-4">{info.title}</h1>
-        <FavoriteButton
-          movie={{
-            id: info.id,
-            title: info.title,
-            poster_path: info.poster_path,
-            vote_average: info.vote_average,
-          }}
-          className="w-11 h-11 flex-none mt-2"
-        />
-      </div>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {info.genres.map((genre) => (
-          <span
-            key={genre.id}
-            className="text-xs px-3 py-1 rounded-full border border-white/20 text-slate-300"
-          >
-            {genre.name}
-          </span>
-        ))}
-      </div>
-      <h2 className="text-lg my-2">
-        Release Date:
-        <span className="text-slate-400 ml-4">{info.release_date}</span>
-      </h2>
-      <h4 className="text-md tracking-wider mb-2">{getRuntime()}</h4>
-      <h3 className="flex items-center mb-6">
-        <img
-          width={24}
-          height={24}
-          src={starIcon}
-          className="mr-2"
-          alt="star icon"
-        />
-        {getRating(info.vote_average)} / 10
-      </h3>
-      <div className="details-scroll overflow-y-scroll">
-        <p className="text-xl leading-9">
-          {info.overview || "No description available."}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function DetailsRightSide({ info }: { info: IMovieDetails }) {
-  return (
-    <div className="flex-1 flex justify-center min-h-[260px] md:min-h-0 mt-6 md:mt-0">
-      {info.videos.results.length ? (
-        <TrailerFacade
-          videoKey={info.videos.results[0]?.key}
-          posterUrl={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
-        />
-      ) : (
-        <div className="w-[60%]">
-          <img
-            src={import.meta.env.VITE_IMAGE_URL + info.poster_path}
-            alt="movie poster"
-            className="w-full h-full object-contain"
-          />
-        </div>
-      )}
-    </div>
   );
 }
 
