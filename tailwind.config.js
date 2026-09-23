@@ -7,8 +7,6 @@ export default {
         playFair: ["Playfair Display", "serif"],
         notoSans: ["Noto Sans TC", "serif"],
         notoSerif: ["Noto Serif TC", "serif"],
-        freeman: ["Freeman", "serif"],
-        roboto: ["Roboto", "serif"],
         bebas: ["Bebas Neue", "sans-serif"],
       },
       colors: {

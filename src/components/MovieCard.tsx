@@ -49,16 +49,16 @@ const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
               {movie.vote_average.toFixed(1)}
             </span>
           </div>
+          <FavoriteButton
+            movie={{
+              id: movie.id,
+              title: movie.title,
+              poster_path: movie.poster_path,
+              vote_average: movie.vote_average,
+            }}
+            className="absolute top-2 right-2 w-8 h-8 z-10"
+          />
         </div>
-        <FavoriteButton
-          movie={{
-            id: movie.id,
-            title: movie.title,
-            poster_path: movie.poster_path,
-            vote_average: movie.vote_average,
-          }}
-          className="absolute top-2 right-2 w-8 h-8 z-10"
-        />
       </Link>
     </div>
   );
