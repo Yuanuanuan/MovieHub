@@ -7,20 +7,19 @@ function CastCard({ person }: { person: MovieCast }) {
   const personImg = getPersonImage(person);
 
   return (
-    <div className="w-[240px] h-fit rounded-2xl">
-      <div className="w-full h-[320px]">
-        <Link to={`/person/${person.id}`}>
-          <img
-            src={personImg}
-            alt="person image"
-            className="w-full h-full object-cover rounded-t-2xl cursor-pointer"
-          />
-        </Link>
-      </div>
-      <div className="h-24 p-2 bg-white text-black  rounded-b-2xl">
-        <h4 className="text-lg font-semibold">{person.name}</h4>
-        <h5 className="text-sm text-[#666]">{person.character}</h5>
-      </div>
+    <div className="w-32 h-fit flex flex-col items-center text-center">
+      <Link
+        to={`/person/${person.id}`}
+        className="block w-24 h-24 rounded-full overflow-hidden shadow-lg"
+      >
+        <img
+          src={personImg}
+          alt="person image"
+          className="w-full h-full object-cover cursor-pointer"
+        />
+      </Link>
+      <h4 className="text-sm font-bold text-white mt-3">{person.name}</h4>
+      <h5 className="text-xs text-slate-400">{person.character}</h5>
     </div>
   );
 }
