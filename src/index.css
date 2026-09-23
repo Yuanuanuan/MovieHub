@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/style.css");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Bebas+Neue&display=swap");
 
 @tailwind base;
@@ -16,29 +17,69 @@
   }
 }
 
-@keyframes loading {
+@keyframes loading-bar {
   0% {
-    transform: rotate(0);
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(60%);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translateX(250%);
   }
 }
 
-.loader {
-  width: 130px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(farthest-side, #ffa516 94%, #0000) top/8px 8px
-      no-repeat,
-    conic-gradient(#0000 30%, #ffa516);
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-  animation: l13 1s infinite linear;
+.animate-loading-bar {
+  animation: loading-bar 1.1s ease-in-out infinite;
 }
 
-@keyframes l13 {
-  100% {
-    transform: rotate(1turn);
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-hero-fade {
+  animation: hero-fade 0.6s ease;
+}
+
+@keyframes hero-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-content-in {
+  animation: hero-content-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: page-fade-in 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -47,7 +88,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background: #141414;
-  font-family: "Noto Sans TC", serif;
+  font-family: "LXGW WenKai TC", "Noto Sans TC", "PingFang TC", sans-serif;
   position: relative;
 }
 

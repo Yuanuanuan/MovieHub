@@ -32,7 +32,7 @@ const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
         to={`/movieDetails/${movie.id}`}
         className="group/card relative z-10 block h-full transition-opacity group-hover:opacity-70 hover:!opacity-100"
       >
-        <div className="relative h-full rounded-[10px] overflow-hidden transition-transform duration-300 hover:scale-105 hover:-translate-y-1">
+        <div className="relative h-full rounded-[10px] overflow-hidden transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:scale-105 hover:-translate-y-1">
           <img
             width={"100%"}
             height={"100%"}

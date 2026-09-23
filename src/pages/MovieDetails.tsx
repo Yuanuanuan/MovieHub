@@ -8,6 +8,7 @@ import FavoriteButton from "@/components/FavoriteButton";
 import TrailerFacade from "@/components/TrailerFacade";
 import { getMovieRecommendations } from "@/api/movie";
 import { MovieInfoRes, IMovieDetails, MovieInfo } from "@/utils/module";
+import { getGenreName } from "@/constants/genres";
 
 function MovieDetails() {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ function MovieDetails() {
                 key={genre.id}
                 className="text-xs px-3 py-1 rounded-full border border-white/20 text-slate-300"
               >
-                {genre.name}
+                {getGenreName(genre)}
               </span>
             ))}
           </div>

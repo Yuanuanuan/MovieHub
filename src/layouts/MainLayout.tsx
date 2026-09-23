@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Loading from "@/components/Loading";
@@ -15,6 +15,7 @@ interface MainSelectorType {
 
 export default function MainLayout() {
   const navState = useNavigation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { loading, requestCount } = useSelector(
     (state: MainSelectorType) => state.main
@@ -45,7 +46,10 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <div className="w-full min-h-[calc(100vh-64px)] px-4 md:px-16">
+      <div
+        key={location.pathname}
+        className="w-full min-h-[calc(100vh-64px)] px-4 md:px-16 page-transition"
+      >
         <Outlet />
       </div>
       <Footer />

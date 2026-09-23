@@ -1,8 +1,8 @@
 function Loading() {
   return (
-    <section className="w-[100vw] h-[100vh] fixed top-0 left-0 z-[9999999] bg-[#14141499] backdrop-blur-sm flex justify-center items-center">
-      <div className="loader"></div>
-    </section>
+    <div className="fixed top-0 left-0 w-full h-[3px] z-[9999999] overflow-hidden bg-primary/15">
+      <div className="h-full w-2/5 bg-primary rounded-full animate-loading-bar" />
+    </div>
   );
 }
 

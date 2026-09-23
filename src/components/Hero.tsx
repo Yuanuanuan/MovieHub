@@ -5,6 +5,7 @@ import { getPopularMovieList, getMovieDetails } from "@/api/movie";
 import FavoriteButton from "@/components/FavoriteButton";
 import { RouthPath } from "@/routers/router";
 import { IMovieDetails, MovieInfo } from "@/utils/module";
+import { getGenreName } from "@/constants/genres";
 
 const GRAIN_BACKGROUND_IMAGE =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>\")";
@@ -29,7 +30,7 @@ function Hero() {
     const current = candidates[activeIndex];
     if (!current) return;
     let cancelled = false;
-    getMovieDetails(current.id).then((res) => {
+    getMovieDetails(current.id, false).then((res) => {
       if (!cancelled) setActiveDetails(res.data as IMovieDetails);
     });
     return () => {
@@ -85,7 +86,7 @@ function Hero() {
             allowFullScreen
           />
         ) : (
-          <>
+          <div key={activeDetails.id} className="absolute inset-0 animate-hero-fade">
             <img
               src={backdropUrl}
               alt={activeDetails.title}
@@ -97,7 +98,7 @@ function Hero() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
-          </>
+          </div>
         )}
       </div>
 
@@ -115,7 +116,10 @@ function Hero() {
       )}
 
       {!playing && (
-        <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 max-w-2xl gap-3">
+        <div
+          key={activeDetails.id}
+          className="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 max-w-2xl gap-3 animate-hero-content-in"
+        >
           <p className="uppercase tracking-widest text-sm text-slate-300 font-bebas">
             本週精選
           </p>
@@ -138,7 +142,7 @@ function Hero() {
                   key={genre.id}
                   className="text-xs px-3 py-1 rounded-full border border-white/25"
                 >
-                  {genre.name}
+                  {getGenreName(genre)}
                 </span>
               ))}
             </div>
