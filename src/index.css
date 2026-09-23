@@ -68,15 +68,6 @@ html::-webkit-scrollbar-thumb:hover {
   background: #f0f0f0;
 }
 
-.main-wrapper:hover .main-movie-card:hover {
-  transform: scale(1.05);
-  opacity: 1;
-}
-
-.main-wrapper:hover .main-movie-card:not(:hover) {
-  opacity: 0.8;
-}
-
 .hr {
   width: 85%;
   height: 4px;

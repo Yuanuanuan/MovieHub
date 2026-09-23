@@ -20,6 +20,9 @@ const Home = () => {
     // few checks in a row — i.e. nothing above it shifted since the last
     // correction — instead of guessing a fixed duration that real network
     // timing won't reliably fit.
+    // Header is sticky at h-20 (80px); targets carry scroll-mt-24 (96px) so
+    // scrollIntoView leaves this much clearance above them instead of 0.
+    const ANCHOR_SCROLL_OFFSET = 96;
     let attempts = 0;
     let stableCount = 0;
     const maxAttempts = 40;
@@ -28,7 +31,7 @@ const Home = () => {
       const target = document.getElementById(anchorId);
       if (target) {
         const topBeforeCorrection = target.getBoundingClientRect().top;
-        if (Math.abs(topBeforeCorrection) < 2) {
+        if (Math.abs(topBeforeCorrection - ANCHOR_SCROLL_OFFSET) < 2) {
           stableCount += 1;
         } else {
           stableCount = 0;

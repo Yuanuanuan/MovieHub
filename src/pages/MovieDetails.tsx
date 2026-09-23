@@ -42,9 +42,13 @@ function MovieDetails() {
       await navigator.share(shareData).catch(() => {});
       return;
     }
-    await navigator.clipboard.writeText(shareData.url);
-    setShareCopied(true);
-    setTimeout(() => setShareCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(shareData.url);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2000);
+    } catch {
+      // clipboard unavailable or denied — silently no-op, matching the navigator.share branch above
+    }
   }
 
   return (
@@ -68,7 +72,7 @@ function MovieDetails() {
         </button>
       </div>
 
-      <div className="flex flex-col md:flex-row items-start gap-6 px-4 md:px-16">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">
         <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">
           <img
             src={import.meta.env.VITE_IMAGE_URL + info.poster_path}

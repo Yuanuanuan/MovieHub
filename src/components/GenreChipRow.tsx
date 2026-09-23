@@ -10,7 +10,7 @@ function GenreChipRow() {
   }
 
   return (
-    <div className="flex gap-2 overflow-x-auto px-4 md:px-16 pb-6 no-scrollbar">
+    <div className="flex gap-2 overflow-x-auto px-4 pb-6 no-scrollbar">
       <button
         type="button"
         className="flex-none py-2 px-4 rounded-full text-sm font-bold bg-white text-black"
