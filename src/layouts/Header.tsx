@@ -55,7 +55,7 @@ const Header = () => {
 
       <ul className="hidden md:flex items-center gap-10 lg:gap-16">
         <li
-          className={`text-xl font-bold cursor-pointer font-roboto ${
+          className={`text-xl font-bold cursor-pointer ${
             currentPage === "home" && "text-primary"
           }`}
         >
@@ -69,7 +69,7 @@ const Header = () => {
         <li className="group relative">
           <button
             type="button"
-            className="text-xl font-bold font-roboto flex items-center gap-1"
+            className="text-xl font-bold flex items-center gap-1"
           >
             Genres
             <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
@@ -92,7 +92,7 @@ const Header = () => {
           </div>
         </li>
         <li
-          className={`text-xl font-bold cursor-pointer font-roboto ${
+          className={`text-xl font-bold cursor-pointer ${
             currentPage === "favorite" && "text-primary"
           }`}
         >

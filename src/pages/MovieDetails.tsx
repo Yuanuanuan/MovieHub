@@ -147,20 +147,19 @@ function MovieDetails() {
         </div>
       )}
 
-      <hr className="hr my-10" />
-      <CastSlide cast={info.credits.cast} />
+      <div className="mt-2 mb-2">
+        <CastSlide cast={info.credits.cast} />
+      </div>
       {recommendations.length > 0 && (
-        <>
-          <hr className="hr my-10" />
+        <div className="mb-2">
           <h3 className="text-4xl ml-6 mb-6">You Might Also Like</h3>
           <Slide>
             {recommendations.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </Slide>
-        </>
+        </div>
       )}
-      <hr className="hr my-10" />
     </main>
   );
 }

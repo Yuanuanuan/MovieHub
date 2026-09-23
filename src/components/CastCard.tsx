@@ -10,7 +10,7 @@ function CastCard({ person }: { person: MovieCast }) {
     <div className="w-32 h-fit flex flex-col items-center text-center">
       <Link
         to={`/person/${person.id}`}
-        className="block w-24 h-24 rounded-full overflow-hidden shadow-lg"
+        className="block w-28 h-28 rounded-full overflow-hidden shadow-lg"
       >
         <img
           src={personImg}

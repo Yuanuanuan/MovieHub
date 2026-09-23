@@ -61,7 +61,7 @@ function HomeRow({ anchorId, label, fetcher, numbered }: RowConfig) {
   if (!movies.length) return <section id={anchorId} className="scroll-mt-24" />;
 
   return (
-    <section id={anchorId} className="scroll-mt-24">
+    <section id={anchorId} className="scroll-mt-24 mb-2">
       <h2 className="text-white text-4xl ml-4 mb-2">{label}</h2>
       <Slide>
         {movies.map((movie, index) => (
@@ -72,7 +72,6 @@ function HomeRow({ anchorId, label, fetcher, numbered }: RowConfig) {
           />
         ))}
       </Slide>
-      <hr className="hr m-10" />
     </section>
   );
 }
