@@ -1,5 +1,3 @@
-import leftArrow from "/leftArrow.svg";
-
 interface LeftButtonProps {
   handleClickLeft: () => void;
 }
@@ -7,10 +5,24 @@ interface LeftButtonProps {
 export default function LeftButton(props: LeftButtonProps) {
   return (
     <button
-      className="absolute w-14 h-full bg-[#14141490] border-none cursor-pointer z-40 top-1/2 left-0 -translate-y-1/2 backdrop-blur-sm"
+      type="button"
+      aria-label="向左捲動"
+      className="absolute w-16 h-full border-none cursor-pointer z-40 top-0 left-0 flex items-center bg-gradient-to-r from-black to-transparent"
       onClick={props.handleClickLeft}
     >
-      <img src={leftArrow} alt="向左箭頭" />
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="ml-3 text-slate-300 hover:text-white transition-colors"
+      >
+        <path d="M15 4l-8 8 8 8" />
+      </svg>
     </button>
   );
 }

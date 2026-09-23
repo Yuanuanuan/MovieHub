@@ -11,7 +11,7 @@ function TrailerFacade({ videoKey, posterUrl }: TrailerFacadeProps) {
   if (playing && videoKey) {
     return (
       <iframe
-        src={import.meta.env.VITE_YOUTUBE_URL + videoKey}
+        src={`${import.meta.env.VITE_YOUTUBE_URL}${videoKey}?autoplay=1&rel=0`}
         className="w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

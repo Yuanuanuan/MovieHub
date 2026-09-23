@@ -7,22 +7,24 @@ function CastCard({ person }: { person: MovieCast }) {
   const personImg = getPersonImage(person);
 
   return (
-    <div className="w-32 h-fit flex flex-col items-center text-center">
-      <Link
-        to={`/person/${person.id}`}
-        className="block w-28 h-28 rounded-full overflow-hidden shadow-lg"
-      >
+    <Link
+      to={`/person/${person.id}`}
+      className="group w-40 h-fit flex flex-col items-center text-center"
+    >
+      <div className="w-40 h-40 rounded-full overflow-hidden shadow-lg outline outline-2 outline-transparent outline-offset-4 transition-all duration-300 group-hover:outline-primary group-hover:scale-105">
         <img
           src={personImg}
           alt="演員照片"
-          className="w-full h-full object-cover cursor-pointer"
+          className="w-full h-full object-cover"
         />
-      </Link>
-      <h4 className="text-sm font-bold text-white mt-3">{person.name}</h4>
-      <h5 className="text-xs text-slate-400">
+      </div>
+      <h4 className="text-base font-bold text-white mt-3 group-hover:text-primary transition-colors">
+        {person.name}
+      </h4>
+      <h5 className="text-sm text-slate-400">
         {person.character ? `飾 ${person.character}` : ""}
       </h5>
-    </div>
+    </Link>
   );
 }
 

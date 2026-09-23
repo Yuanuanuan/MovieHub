@@ -80,7 +80,7 @@ function Hero() {
       <div className="absolute inset-0">
         {playing && trailerKey ? (
           <iframe
-            src={import.meta.env.VITE_YOUTUBE_URL + trailerKey}
+            src={`${import.meta.env.VITE_YOUTUBE_URL}${trailerKey}?autoplay=1&rel=0`}
             className="w-full h-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -118,7 +118,7 @@ function Hero() {
       {!playing && (
         <div
           key={activeDetails.id}
-          className="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 max-w-2xl gap-3 animate-hero-content-in"
+          className="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 max-w-2xl gap-3 text-white animate-hero-content-in"
         >
           <p className="uppercase tracking-widest text-sm text-slate-300 font-bebas">
             本週精選
@@ -192,10 +192,25 @@ function Hero() {
                 aria-label={`精選 ${index + 1}`}
                 aria-current={index === activeIndex}
                 onClick={() => setActiveIndex(index)}
-                className={`w-6 h-1 rounded-full ${
-                  index === activeIndex ? "bg-primary" : "bg-white/30"
-                }`}
-              />
+                className="w-8 h-1 rounded-full overflow-hidden bg-white/25"
+              >
+                {index < activeIndex ? (
+                  <span className="block h-full w-full bg-primary" />
+                ) : index === activeIndex && candidates.length > 1 ? (
+                  <span
+                    key={activeIndex}
+                    className="block h-full bg-primary animate-hero-dash-fill"
+                    style={{
+                      animationPlayState:
+                        playing || hovering || focused ? "paused" : "running",
+                    }}
+                  />
+                ) : index === activeIndex ? (
+                  <span className="block h-full w-full bg-primary" />
+                ) : (
+                  <span className="block h-full w-0 bg-primary" />
+                )}
+              </button>
             ))}
           </div>
         </div>

@@ -139,7 +139,7 @@ function MovieDetails() {
 
       {info.videos.results.length > 0 && (
         <div className="px-4 md:px-16 mt-8">
-          <div className="h-[220px] sm:h-[320px] rounded-xl overflow-hidden">
+          <div className="aspect-video rounded-xl overflow-hidden">
             <TrailerFacade
               videoKey={info.videos.results[0]?.key}
               posterUrl={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
@@ -153,10 +153,10 @@ function MovieDetails() {
       </div>
       {recommendations.length > 0 && (
         <div className="mb-2">
-          <h3 className="text-4xl ml-6 mb-6">看過這部的人也喜歡</h3>
+          <h3 className="text-4xl ml-4 mb-6">看過這部的人也喜歡</h3>
           <Slide>
             {recommendations.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie.id} movie={movie} size="compact" />
             ))}
           </Slide>
         </div>

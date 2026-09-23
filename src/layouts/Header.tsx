@@ -15,10 +15,12 @@ interface FavoritesSelectorType {
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [currentPage, setCurrentPage] = useState<"home" | "favorite">("home");
+  const [currentPage, setCurrentPage] = useState<
+    "home" | "favorite" | "other"
+  >("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const favoriteCount = useSelector(
-    (state: FavoritesSelectorType) => state.favorites.items.length
+    (state: FavoritesSelectorType) => state.favorites.items.length,
   );
 
   function handleGoHome() {
@@ -31,21 +33,24 @@ const Header = () => {
     setMobileMenuOpen(false);
   }
 
-  function handleGenreClick(anchor: string) {
-    navigate(`${RouthPath.home}#${anchor}`);
+  function handleGenreClick(genreId: number) {
+    navigate(`${RouthPath.home}?genre=${genreId}`);
     setMobileMenuOpen(false);
   }
 
   useEffect(() => {
     if (location.pathname.includes("favorite")) {
       setCurrentPage("favorite");
-      return;
+    } else if (location.pathname === RouthPath.home) {
+      setCurrentPage("home");
+    } else {
+      setCurrentPage("other");
     }
-    setCurrentPage("home");
   }, [location]);
 
   return (
-    <header className="w-auto px-4 md:px-6 h-20 flex justify-between items-center bg-[linear-gradient(#141414_55%,transparent)] text-white sticky top-0 z-50">
+    <header className="relative w-auto px-4 md:px-6 h-20 flex justify-between items-center bg-black text-white sticky top-0 z-50">
+      <div className="absolute top-full left-0 right-0 h-[30px] bg-gradient-to-b from-black/55 to-transparent pointer-events-none" />
       <div
         className="flex gap-4 items-center cursor-pointer"
         onClick={handleGoHome}
@@ -88,7 +93,7 @@ const Header = () => {
                 <button
                   key={genre.id}
                   type="button"
-                  onClick={() => handleGenreClick(genre.anchor)}
+                  onClick={() => handleGenreClick(genre.id)}
                   className="text-left text-sm px-2 py-1.5 rounded hover:bg-white/10 whitespace-nowrap"
                 >
                   {genre.label}
@@ -189,7 +194,7 @@ const Header = () => {
               <button
                 key={genre.id}
                 type="button"
-                onClick={() => handleGenreClick(genre.anchor)}
+                onClick={() => handleGenreClick(genre.id)}
                 className="text-sm px-3 py-1.5 rounded-full border border-white/20"
               >
                 {genre.label}

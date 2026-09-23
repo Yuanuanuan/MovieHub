@@ -11,7 +11,6 @@ import {
 import { MovieInfo } from "@/utils/module";
 
 interface RowConfig {
-  anchorId: string;
   label: string;
   fetcher: () => Promise<MovieInfo[]>;
   numbered?: boolean;
@@ -19,49 +18,43 @@ interface RowConfig {
 
 const ROWS: RowConfig[] = [
   {
-    anchorId: "row-new",
     label: "最新上映",
     fetcher: () => getNowPlayingMovieList(),
   },
   {
-    anchorId: "row-hot",
     label: "熱門電影",
     fetcher: () => getPopularMovieList(),
   },
   {
-    anchorId: "row-top10",
     label: "TOP 10 本週",
     fetcher: () => getTopMovieList(),
     numbered: true,
   },
   {
-    anchorId: "row-action",
     label: "動作片",
     fetcher: () => getMoviesByGenre(28),
   },
   {
-    anchorId: "row-comedy",
     label: "喜劇片",
     fetcher: () => getMoviesByGenre(35),
   },
   {
-    anchorId: "row-soon",
     label: "即將上映",
     fetcher: () => getUpcomingMovieList(),
   },
 ];
 
-function HomeRow({ anchorId, label, fetcher, numbered }: RowConfig) {
+function HomeRow({ label, fetcher, numbered }: RowConfig) {
   const [movies, setMovies] = useState<MovieInfo[]>([]);
 
   useEffect(() => {
     fetcher().then(setMovies);
-  }, [anchorId, fetcher]);
+  }, [fetcher]);
 
-  if (!movies.length) return <section id={anchorId} className="scroll-mt-24" />;
+  if (!movies.length) return null;
 
   return (
-    <section id={anchorId} className="scroll-mt-24 mb-2">
+    <section className="mb-2">
       <h2 className="text-white text-4xl ml-4 mb-2">{label}</h2>
       <Slide>
         {movies.map((movie, index) => (
@@ -80,7 +73,7 @@ function HomeRows() {
   return (
     <>
       {ROWS.map((row) => (
-        <HomeRow key={row.anchorId} {...row} />
+        <HomeRow key={row.label} {...row} />
       ))}
     </>
   );

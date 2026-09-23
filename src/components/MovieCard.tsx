@@ -6,15 +6,25 @@ import starIcon from "/star.svg";
 interface MainMovieCardProps {
   movie: MovieInfo;
   rank?: number;
+  size?: "default" | "compact";
 }
 
-const MainMovieCard = ({ movie, rank }: MainMovieCardProps) => {
+const SIZE_CLASSES: Record<"default" | "compact", string> = {
+  default: "w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[350px]",
+  compact: "w-32 sm:w-40 md:w-[200px] h-[192px] sm:h-[240px] md:h-[300px]",
+};
+
+const MainMovieCard = ({
+  movie,
+  rank,
+  size = "default",
+}: MainMovieCardProps) => {
   return (
     <div
       key={movie.id}
-      className={`relative main-wrapper ${
-        rank ? "pl-6" : ""
-      } w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[350px]`}
+      className={`relative main-wrapper ${rank ? "pl-6" : ""} ${
+        SIZE_CLASSES[size]
+      }`}
     >
       {rank && (
         <span
