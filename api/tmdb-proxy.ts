@@ -18,10 +18,19 @@ export async function GET(request: Request) {
   url.searchParams.delete("path");
   const query = url.searchParams.toString();
 
-  return fetch(`${baseUrl}/${path}${query ? `?${query}` : ""}`, {
+  const tmdbRes = await fetch(`${baseUrl}/${path}${query ? `?${query}` : ""}`, {
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
   });
+
+  // Read the body ourselves rather than returning tmdbRes directly — fetch()
+  // transparently decompresses the upstream gzip body, but a pass-through
+  // Response would forward TMDB's original content-encoding/content-length
+  // headers alongside the already-decompressed body, so browsers see a
+  // mismatch and fail the request even though curl (no Accept-Encoding by
+  // default) doesn't hit it.
+  const data = await tmdbRes.json();
+  return Response.json(data, { status: tmdbRes.status });
 }
