@@ -55,27 +55,23 @@ function SocialMedia({ externalIds }: { externalIds: PersonExternalIds }) {
   ];
 
   return (
-    <div className="flex flex-col">
-      <h5 className="text-xl mb-6 font-bold flex items-center">社群媒體:</h5>
-      <ul className="flex gap-8">
-        {socialMediaList.map((media, index) => {
-          return (
-            media.id && (
-              <li key={index} className="hover:scale-110">
-                <Link to={media.url + media.id} target="_blank">
-                  <img
-                    width={48}
-                    height={48}
-                    src={media.icon}
-                    alt={media.alt}
-                  />
-                </Link>
-              </li>
-            )
-          );
-        })}
-      </ul>
-    </div>
+    <ul className="flex gap-2">
+      {socialMediaList.map((media, index) => {
+        return (
+          media.id && (
+            <li key={index}>
+              <Link
+                to={media.url + media.id}
+                target="_blank"
+                className="w-[38px] h-[38px] rounded-[10px] flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
+              >
+                <img width={18} height={18} src={media.icon} alt={media.alt} />
+              </Link>
+            </li>
+          )
+        );
+      })}
+    </ul>
   );
 }
 

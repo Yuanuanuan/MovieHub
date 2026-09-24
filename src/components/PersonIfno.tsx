@@ -1,45 +1,36 @@
 import SocialMedia from "@/components/SocialMedia";
-import menImg from "/men.jpg";
-import womenImg from "/women.jfif";
-import maleIcon from "/male.svg";
-import femaleIcon from "/female.svg";
 import { type IPersonInfo } from "@/utils/module";
+import { getPersonImage } from "@/utils/person";
 
 function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
   return (
-    <div className="w-full h-fit flex flex-col md:flex-row gap-8 md:gap-32">
-      <img
-        width={"40%"}
-        height={"100%"}
-        src={getPersonImage(personInfo)}
-        className="w-full md:w-[40%] max-w-[400px] object-cover rounded-2xl border-primary"
-        style={{
-          boxShadow: "-2px -2px 15px #252525, 2px 2px 15px #474747",
-        }}
-        alt="演員照片"
-      />
-      <div className="w-full md:w-[60%] h-full font-notoSans">
-        <h1 className="text-5xl">{personInfo.name}</h1>
-        <hr className="hr my-8" />
-        <h2 className="text-xl my-8 font-bold">
-          生日:
-          <span className=" ml-3 font-normal">{personInfo.birthday}</span>
-        </h2>
-        <h3 className="text-xl my-8 font-bold">
-          出生地:
-          <span className=" ml-3 font-normal">{personInfo.place_of_birth}</span>
-        </h3>
-        <h4 className="text-xl my-8 font-bold flex items-center">
-          性別:
-          <span className=" ml-3 font-normal">
-            <img
-              width={36}
-              height={36}
-              src={transGender(personInfo.gender)}
-              alt="性別圖示"
-            />
-          </span>
-        </h4>
+    <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">
+      <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">
+        <img
+          src={getPersonImage(personInfo)}
+          alt="演員照片"
+          className="w-full aspect-[2/3] object-cover rounded-lg shadow-2xl border-4 border-black"
+        />
+      </div>
+
+      <div className="flex-1 flex flex-col gap-3 pt-4 w-full">
+        <h1 className="text-[32px] md:text-[44px] font-black leading-tight">
+          {personInfo.name}
+        </h1>
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
+          {personInfo.known_for_department && (
+            <span className="text-xs px-3 py-1 rounded-full border border-white/20">
+              {personInfo.known_for_department}
+            </span>
+          )}
+          {personInfo.birthday && <span>{personInfo.birthday}</span>}
+        </div>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm text-slate-300 max-w-sm">
+          <dt className="font-bold text-slate-400">出生地</dt>
+          <dd>{personInfo.place_of_birth || "資料不詳"}</dd>
+          <dt className="font-bold text-slate-400">性別</dt>
+          <dd>{transGender(personInfo.gender)}</dd>
+        </dl>
         <SocialMedia externalIds={personInfo.external_ids} />
       </div>
     </div>
@@ -48,22 +39,7 @@ function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
 
 export default PersonInfo;
 
-/** 獲取演員圖像 */
-function getPersonImage(person: IPersonInfo) {
-  if (person.profile_path)
-    return import.meta.env.VITE_IMAGE_URL + person.profile_path;
-
-  if (person.gender === 1) {
-    return womenImg;
-  } else {
-    return menImg;
-  }
-}
-
 /** 獲取演員性別 */
 function transGender(gender: 1 | 2) {
-  if (gender === 2) {
-    return maleIcon;
-  }
-  return femaleIcon;
+  return gender === 2 ? "男" : "女";
 }

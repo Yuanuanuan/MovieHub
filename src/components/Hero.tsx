@@ -42,20 +42,13 @@ function Hero() {
     setPlaying(false);
   }, [activeIndex]);
 
-  useEffect(() => {
-    if (candidates.length <= 1) return;
-    if (playing || hovering || focused) return;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const intervalId = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % candidates.length);
-    }, 5500);
-
-    return () => clearInterval(intervalId);
-  }, [candidates.length, playing, hovering, focused, activeIndex]);
+  function handleDashFillComplete() {
+    setActiveIndex((i) => (i + 1) % candidates.length);
+  }
 
   if (!activeDetails) return null;
 
@@ -194,22 +187,21 @@ function Hero() {
                 onClick={() => setActiveIndex(index)}
                 className="w-8 h-1 rounded-full overflow-hidden bg-white/25"
               >
-                {index < activeIndex ? (
-                  <span className="block h-full w-full bg-primary" />
-                ) : index === activeIndex && candidates.length > 1 ? (
+                {index === activeIndex &&
+                candidates.length > 1 &&
+                !prefersReducedMotion ? (
                   <span
                     key={activeIndex}
                     className="block h-full bg-primary animate-hero-dash-fill"
                     style={{
                       animationPlayState:
-                        playing || hovering || focused ? "paused" : "running",
+                        hovering || focused ? "paused" : "running",
                     }}
+                    onAnimationEnd={handleDashFillComplete}
                   />
                 ) : index === activeIndex ? (
                   <span className="block h-full w-full bg-primary" />
-                ) : (
-                  <span className="block h-full w-0 bg-primary" />
-                )}
+                ) : null}
               </button>
             ))}
           </div>

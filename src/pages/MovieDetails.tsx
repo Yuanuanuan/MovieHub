@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import starIcon from "/star.svg";
 import CastSlide from "@/layouts/CastSlide";
 import Slide from "@/components/Slide";
 import MovieCard from "@/components/MovieCard";
 import FavoriteButton from "@/components/FavoriteButton";
+import BackButton from "@/components/BackButton";
 import TrailerFacade from "@/components/TrailerFacade";
 import { getMovieRecommendations } from "@/api/movie";
 import { MovieInfoRes, IMovieDetails, MovieInfo } from "@/utils/module";
 import { getGenreName } from "@/constants/genres";
 
 function MovieDetails() {
-  const navigate = useNavigate();
   const res = useLoaderData() as MovieInfoRes;
   const info = res.data as IMovieDetails;
   const [recommendations, setRecommendations] = useState<MovieInfo[]>([]);
@@ -61,16 +61,7 @@ function MovieDetails() {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="absolute top-4 left-4 z-10 flex items-center gap-1.5 py-2 pl-2.5 pr-4 rounded-full bg-black/55 backdrop-blur-sm text-white text-sm font-bold"
-        >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-            <path d="M15 4l-8 8 8 8 1.4-1.4L9.8 12l6.6-6.6z" />
-          </svg>
-          返回
-        </button>
+        <BackButton className="absolute top-4 left-4 z-10" />
       </div>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">

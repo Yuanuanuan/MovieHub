@@ -71,6 +71,7 @@ export interface IPersonInfo {
   place_of_birth: string;
   profile_path: string;
   birthday: string;
+  known_for_department: string;
   external_ids: PersonExternalIds;
   movie_credits: PersonCredits;
 }
