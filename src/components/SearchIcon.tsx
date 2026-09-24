@@ -2,7 +2,7 @@ interface SearchIcon {
   className: string;
 }
 
-function SearchIcon({ className }: SearchIcon) {
+function SearchIcon({ className }: Readonly<SearchIcon>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

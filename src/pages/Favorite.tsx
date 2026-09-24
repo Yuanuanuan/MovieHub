@@ -46,7 +46,7 @@ function Favorite() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {items.map((favorite) => (
             <MovieCard
               key={favorite.id}

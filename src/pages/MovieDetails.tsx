@@ -22,7 +22,8 @@ function MovieDetails() {
   useEffect(() => {
     let cancelled = false;
     getMovieRecommendations(info.id).then((results) => {
-      if (!cancelled) setRecommendations((results as MovieInfo[]).filter(hasPoster));
+      if (!cancelled)
+        setRecommendations((results as MovieInfo[]).filter(hasPoster));
     });
     return () => {
       cancelled = true;
@@ -88,7 +89,7 @@ function MovieDetails() {
               <img width={16} height={16} src={starIcon} alt="星星圖示" />
               {getRating(info.vote_average)}
             </span>
-            <span>{info.release_date?.slice(0, 4)}</span>
+            <span>{info.release_date}</span>
             <span>·</span>
             <span>{getRuntime()}</span>
           </div>
@@ -136,7 +137,7 @@ function MovieDetails() {
 
       {info.videos.results.length > 0 && (
         <div className="px-4 md:px-16 mt-8">
-          <div className="aspect-video rounded-xl overflow-hidden">
+          <div className="aspect-video max-h-[80vh] mx-auto rounded-xl overflow-hidden">
             <TrailerFacade
               videoKey={info.videos.results[0]?.key}
               posterUrl={getBackdropUrl(info.backdrop_path) ?? ""}
@@ -145,15 +146,20 @@ function MovieDetails() {
         </div>
       )}
 
-      <div className="mt-2 mb-2">
+      <div className="mt-16 mb-8">
         <CastSlide cast={info.credits.cast} />
       </div>
       {recommendations.length > 0 && (
-        <div className="mb-2">
+        <div className="mb-10">
           <h3 className="text-4xl ml-4 mb-6">看過這部的人也喜歡</h3>
           <Slide>
             {recommendations.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} size="compact" loading="lazy" />
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                size="compact"
+                loading="lazy"
+              />
             ))}
           </Slide>
         </div>

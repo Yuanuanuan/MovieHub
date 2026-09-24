@@ -8,7 +8,9 @@ import ytIcon from "/media/youtube.svg";
 import { Link } from "react-router-dom";
 import { PersonExternalIds } from "@/utils/module";
 
-function SocialMedia({ externalIds }: { externalIds: PersonExternalIds }) {
+function SocialMedia({
+  externalIds,
+}: Readonly<{ externalIds: PersonExternalIds }>) {
   const socialMediaList = [
     {
       id: externalIds.facebook_id,

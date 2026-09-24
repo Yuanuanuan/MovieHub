@@ -27,13 +27,11 @@ const MainMovieCard = memo(function MainMovieCard({
   return (
     <div
       key={movie.id}
-      className={`relative main-wrapper ${rank ? "pl-6" : ""} ${
-        SIZE_CLASSES[size]
-      }`}
+      className={`relative main-wrapper ${SIZE_CLASSES[size]}`}
     >
       {rank && (
         <span
-          className="absolute -left-2 -bottom-3 z-0 font-bebas leading-none select-none pointer-events-none"
+          className="absolute -left-6 -bottom-3 z-0 font-bebas leading-none select-none pointer-events-none"
           style={{
             fontSize: "74px",
             color: "transparent",

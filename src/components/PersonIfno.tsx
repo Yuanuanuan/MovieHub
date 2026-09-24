@@ -3,7 +3,7 @@ import { type IPersonInfo } from "@/utils/module";
 import { getPersonImage } from "@/utils/person";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 
-function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
+function PersonInfo({ personInfo }: Readonly<{ personInfo: IPersonInfo }>) {
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">
       <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">

@@ -13,20 +13,16 @@ const Slide = ({ children }: { children: ReactNode }) => {
   } = useSlide(slideRef);
 
   return (
-    <>
-      <section className="relative no-scrollbar">
-        {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
-        <div
-          ref={slideRef}
-          className="group px-4 py-4 grid grid-flow-col gap-3 overflow-x-auto overflow-y-hidden no-scrollbar"
-        >
-          {children}
-        </div>
-        {rightBtnVariable && (
-          <RightButton handleClickRight={handleClickRight} />
-        )}
-      </section>
-    </>
+    <section className="relative no-scrollbar">
+      {leftBtnVariable && <LeftButton handleClickLeft={handleClickLeft} />}
+      <div
+        ref={slideRef}
+        className="group px-4 py-4 grid grid-flow-col gap-5 overflow-x-auto overflow-y-hidden no-scrollbar"
+      >
+        {children}
+      </div>
+      {rightBtnVariable && <RightButton handleClickRight={handleClickRight} />}
+    </section>
   );
 };
 

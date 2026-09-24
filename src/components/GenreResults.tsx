@@ -28,10 +28,10 @@ function GenreResults({ genreId }: { genreId: number }) {
           pageRef.current = page;
           loadingRef.current = false;
           setLoading(false);
-        }
+        },
       );
     },
-    [genreId]
+    [genreId],
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function GenreResults({ genreId }: { genreId: number }) {
         if (loadingRef.current || !hasMore) return;
         loadPage(pageRef.current + 1, false);
       },
-      { rootMargin: "400px" }
+      { rootMargin: "400px" },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -61,7 +61,7 @@ function GenreResults({ genreId }: { genreId: number }) {
 
   return (
     <section>
-      <h2 className="text-white text-4xl mb-6">{label}</h2>
+      <h2 className="text-white text-4xl mt-8 mb-6">{label}</h2>
       {!loading && movies.length === 0 ? (
         <div className="w-full h-[50vh] flex items-center justify-center">
           <p className="text-slate-400 text-lg">這個分類目前沒有電影。</p>

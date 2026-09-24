@@ -5,7 +5,7 @@ interface TrailerFacadeProps {
   posterUrl: string;
 }
 
-function TrailerFacade({ videoKey, posterUrl }: TrailerFacadeProps) {
+function TrailerFacade({ videoKey, posterUrl }: Readonly<TrailerFacadeProps>) {
   const [playing, setPlaying] = useState(false);
 
   if (playing && videoKey) {

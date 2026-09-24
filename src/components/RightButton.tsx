@@ -2,7 +2,7 @@ interface RightButtonProps {
   handleClickRight: () => void;
 }
 
-export default function RightButton(props: RightButtonProps) {
+export default function RightButton(props: Readonly<RightButtonProps>) {
   return (
     <button
       type="button"
