@@ -29,8 +29,11 @@
 ## 專案結構
 
 ```
+api/
+└── tmdb/[...path].ts  # Vercel Serverless Function，代理 TMDB 請求並在伺服器端附加 Bearer Token（見下方「TMDB Token 代理」）
+
 src/
-├── api/            # Axios 實例與 TMDB API 封裝（movie.ts / person.ts）
+├── api/            # Axios 實例與 TMDB API 封裝（movie.ts / person.ts），實際打到 /api/tmdb
 ├── components/     # 可重用元件（卡片、按鈕、輪播、骨架屏…）
 ├── constants/       # 類型（genre）常數與中文名稱對照
 ├── hooks/           # 自訂 hook（如輪播 useSlide）
@@ -67,11 +70,20 @@ cp .env.example .env
 
 | 變數 | 說明 |
 | --- | --- |
-| `VITE_API_TOKEN` | TMDB API Read Access Token（必填，需自行至 TMDB 帳號設定申請） |
-| `VITE_BASE_URL` | TMDB API 基底網址，預設 `https://api.themoviedb.org/3` |
+| `TMDB_API_TOKEN` | TMDB API Read Access Token（必填，需自行至 TMDB 帳號設定申請）。**不加** `VITE_` 前綴，只在伺服器端（`api/tmdb/[...path].ts` 與本機 dev proxy）使用，不會打包進前端、也不會暴露給瀏覽器 |
+| `TMDB_BASE_URL` | TMDB API 基底網址，預設 `https://api.themoviedb.org/3`。同樣只在伺服器端使用 |
 | `VITE_IMAGE_URL` | TMDB 圖片 CDN 網址，用於組合海報／背景圖 |
 | `VITE_YOUTUBE_URL` / `VITE_YOUTUBE_URL_FOR_USER` | 用於嵌入預告片 iframe |
 | `VITE_IMDB_URL` / `VITE_FACEBOOK_URL` / `VITE_INSTAGRAM_URL` / `VITE_X_URL` / `VITE_TIKTOK_URL` / `VITE_WIKIPIEDIA_URL` | 演員頁社群連結前綴，會與 TMDB 回傳的帳號 ID 組合成完整連結 |
+
+#### TMDB Token 代理
+
+前端不會直接帶著 Token 呼叫 TMDB，而是打同網域的 `/api/tmdb/*`：
+
+- **正式環境（Vercel）**：由 `api/tmdb/[...path].ts` 這個 Serverless Function 接住請求，從 `process.env.TMDB_API_TOKEN` 讀取 Token 後轉發給 TMDB，Token 全程不會出現在前端打包產物或瀏覽器請求中。
+- **本機開發（`vite dev`）**：`vite.config.ts` 設定了等效的 dev server proxy，直接讀取 `.env` 裡的 `TMDB_API_TOKEN` 轉發，行為與正式環境一致。
+
+因此部署到 Vercel 時，`TMDB_API_TOKEN` / `TMDB_BASE_URL` 可以安全地設為 **Sensitive**（Vercel 後台會擋你把帶 `VITE_` 前綴的變數設為 Sensitive，因為那類變數本來就會被打包進前端公開；改名去掉前綴後就沒有這個限制了）。
 
 ### 開發
 

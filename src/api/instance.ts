@@ -17,10 +17,11 @@ interface ApiResponse {
 
 function createInstance(options: InstanceOptions = {}) {
   const instance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
+    // Same-origin proxy — see api/tmdb/[...path].ts. The TMDB Bearer token
+    // stays server-side and is never sent to the browser.
+    baseURL: "/api/tmdb",
     headers: {
       accept: "application/json",
-      Authorization: "Bearer " + import.meta.env.VITE_API_TOKEN,
     },
   });
   instance.interceptors.request.use((req) => requestInterceptors(req, options));
