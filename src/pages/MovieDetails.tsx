@@ -151,7 +151,7 @@ function MovieDetails() {
       </div>
       {recommendations.length > 0 && (
         <div className="mb-10">
-          <h3 className="text-4xl ml-4 mb-6">看過這部的人也喜歡</h3>
+          <h3 className="text-2xl md:text-4xl ml-4 mb-6">看過這部的人也喜歡</h3>
           <Slide>
             {recommendations.map((movie) => (
               <MovieCard

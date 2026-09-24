@@ -99,6 +99,24 @@ const Header = () => {
         </li>
       </ul>
 
+      <button
+        type="button"
+        onClick={() => setMobileMenuOpen((open) => !open)}
+        aria-label={mobileMenuOpen ? "關閉選單" : "開啟選單"}
+        aria-expanded={mobileMenuOpen}
+        className="md:hidden flex items-center justify-center w-10 h-10 rounded-[10px] text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+      >
+        {mobileMenuOpen ? (
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7l-1.4-1.4L9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" />
+          </svg>
+        )}
+      </button>
+
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 flex flex-col p-4 gap-3 z-50">
           <button

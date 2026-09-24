@@ -61,14 +61,14 @@ function GenreResults({ genreId }: { genreId: number }) {
 
   return (
     <section>
-      <h2 className="text-white text-4xl mt-8 mb-6">{label}</h2>
+      <h2 className="text-white text-2xl md:text-4xl mt-8 mb-6">{label}</h2>
       {!loading && movies.length === 0 ? (
         <div className="w-full h-[50vh] flex items-center justify-center">
           <p className="text-slate-400 text-lg">這個分類目前沒有電影。</p>
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap justify-center sm:justify-start gap-3">
             {movies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} loading="lazy" />
             ))}

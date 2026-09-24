@@ -30,7 +30,7 @@ function PersonDetails() {
       <PersonInfo personInfo={personInfo} />
 
       <div className="mt-10 mb-2">
-        <h3 className="text-4xl ml-4 mb-6">出演電影</h3>
+        <h3 className="text-2xl md:text-4xl ml-4 mb-6">出演電影</h3>
         <Slide>
           {filmography.map((movie) => (
             <MovieCard

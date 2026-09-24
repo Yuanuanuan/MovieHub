@@ -34,7 +34,7 @@ function Search() {
         // a newer request (or the empty-query branch) will replace this state
       }
     },
-    [search]
+    [search],
   );
 
   const fetchAllMovie = useCallback(async (signal: AbortSignal) => {
@@ -70,7 +70,7 @@ function Search() {
 
   return (
     <section className="w-full h-full flex flex-col mb-20 text-white">
-      <div className="w-full h-12 mb-6 flex items-center gap-3 px-4">
+      <div className="w-full h-12 my-6 flex items-center gap-3 px-4">
         <button
           type="button"
           onClick={() => navigate(-1)}
@@ -100,7 +100,12 @@ function Search() {
               aria-label="清除搜尋"
               className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
             >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="currentColor"
+              >
                 <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7l-1.4-1.4L9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z" />
               </svg>
             </button>
@@ -112,7 +117,10 @@ function Search() {
         {movieList.length > 0 ? (
           movieList.map((movie) => {
             return (
-              <div className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px]" key={movie.id}>
+              <div
+                className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px]"
+                key={movie.id}
+              >
                 <Link to={RouthPath.details + "/" + movie.id}>
                   <ImageWithSkeleton
                     src={getPosterUrl(movie.poster_path)}

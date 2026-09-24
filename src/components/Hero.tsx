@@ -122,7 +122,7 @@ function Hero() {
           <p className="uppercase tracking-widest text-sm text-slate-300 font-bebas">
             本週精選
           </p>
-          <h1 className="text-3xl md:text-5xl font-bold">
+          <h1 className="text-xl sm:text-2xl md:text-5xl font-bold">
             {activeDetails.title}
           </h1>
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">

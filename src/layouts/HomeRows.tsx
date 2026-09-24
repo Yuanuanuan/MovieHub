@@ -86,7 +86,7 @@ function HomeRow({
 
   return (
     <section className="mb-2">
-      <h2 className="text-white text-4xl ml-4 mt-8 mb-2">{label}</h2>
+      <h2 className="text-white text-2xl md:text-4xl ml-4 mt-8 mb-2">{label}</h2>
       <Slide>
         {movies.map((movie, index) => (
           <MovieCard
