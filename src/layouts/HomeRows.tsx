@@ -9,6 +9,7 @@ import {
   getUpcomingMovieList,
 } from "@/api/movie";
 import { MovieInfo } from "@/utils/module";
+import { hasPoster } from "@/utils/image";
 
 interface RowConfig {
   label: string;
@@ -44,14 +45,44 @@ const ROWS: RowConfig[] = [
   },
 ];
 
-function HomeRow({ label, fetcher, numbered }: RowConfig) {
-  const [movies, setMovies] = useState<MovieInfo[]>([]);
+const SKELETON_COUNT = 6;
+
+function HomeRowSkeleton() {
+  return (
+    <section className="mb-2">
+      <div className="h-9 w-40 ml-4 mb-2 rounded bg-[#1c1c1f] animate-shimmer" />
+      <div className="flex gap-3 px-4 py-4 overflow-hidden">
+        {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+          <div
+            key={i}
+            className="flex-none w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[350px] rounded-[10px] bg-[#1c1c1f] animate-shimmer"
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HomeRow({
+  label,
+  fetcher,
+  numbered,
+  isFirstRow,
+}: RowConfig & { isFirstRow: boolean }) {
+  const [movies, setMovies] = useState<MovieInfo[] | null>(null);
 
   useEffect(() => {
-    fetcher().then(setMovies);
+    let cancelled = false;
+    fetcher().then((results) => {
+      if (!cancelled) setMovies(results.filter(hasPoster));
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [fetcher]);
 
-  if (!movies.length) return null;
+  if (movies === null) return <HomeRowSkeleton />;
+  if (movies.length === 0) return null;
 
   return (
     <section className="mb-2">
@@ -62,6 +93,7 @@ function HomeRow({ label, fetcher, numbered }: RowConfig) {
             key={movie.id}
             movie={movie}
             rank={numbered ? index + 1 : undefined}
+            loading={isFirstRow && index < 4 ? "eager" : "lazy"}
           />
         ))}
       </Slide>
@@ -72,8 +104,8 @@ function HomeRow({ label, fetcher, numbered }: RowConfig) {
 function HomeRows() {
   return (
     <>
-      {ROWS.map((row) => (
-        <HomeRow key={row.label} {...row} />
+      {ROWS.map((row, index) => (
+        <HomeRow key={row.label} {...row} isFirstRow={index === 0} />
       ))}
     </>
   );

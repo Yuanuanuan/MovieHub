@@ -10,6 +10,8 @@ import TrailerFacade from "@/components/TrailerFacade";
 import { getMovieRecommendations } from "@/api/movie";
 import { MovieInfoRes, IMovieDetails, MovieInfo } from "@/utils/module";
 import { getGenreName } from "@/constants/genres";
+import { getPosterUrl, getBackdropUrl, hasPoster } from "@/utils/image";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 
 function MovieDetails() {
   const res = useLoaderData() as MovieInfoRes;
@@ -20,7 +22,7 @@ function MovieDetails() {
   useEffect(() => {
     let cancelled = false;
     getMovieRecommendations(info.id).then((results) => {
-      if (!cancelled) setRecommendations(results);
+      if (!cancelled) setRecommendations((results as MovieInfo[]).filter(hasPoster));
     });
     return () => {
       cancelled = true;
@@ -55,10 +57,12 @@ function MovieDetails() {
   return (
     <main className="w-full h-full text-white mb-16">
       <div className="relative h-[220px] sm:h-[300px] mx-4 md:mx-16 rounded-2xl overflow-hidden">
-        <img
-          src={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
+        <ImageWithSkeleton
+          src={getBackdropUrl(info.backdrop_path)}
           alt={info.title}
-          className="w-full h-full object-cover"
+          loading="eager"
+          className="w-full h-full"
+          imgClassName="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
         <BackButton className="absolute top-4 left-4 z-10" />
@@ -66,10 +70,12 @@ function MovieDetails() {
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">
         <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">
-          <img
-            src={import.meta.env.VITE_IMAGE_URL + info.poster_path}
+          <ImageWithSkeleton
+            src={getPosterUrl(info.poster_path)}
             alt={info.title}
-            className="w-full aspect-[2/3] object-cover rounded-lg shadow-2xl border-4 border-black"
+            loading="eager"
+            className="w-full aspect-[2/3] rounded-lg shadow-2xl border-4 border-black"
+            imgClassName="w-full h-full object-cover rounded-lg"
           />
         </div>
 
@@ -133,7 +139,7 @@ function MovieDetails() {
           <div className="aspect-video rounded-xl overflow-hidden">
             <TrailerFacade
               videoKey={info.videos.results[0]?.key}
-              posterUrl={import.meta.env.VITE_IMAGE_URL + info.backdrop_path}
+              posterUrl={getBackdropUrl(info.backdrop_path) ?? ""}
             />
           </div>
         </div>
@@ -147,7 +153,7 @@ function MovieDetails() {
           <h3 className="text-4xl ml-4 mb-6">看過這部的人也喜歡</h3>
           <Slide>
             {recommendations.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} size="compact" />
+              <MovieCard key={movie.id} movie={movie} size="compact" loading="lazy" />
             ))}
           </Slide>
         </div>

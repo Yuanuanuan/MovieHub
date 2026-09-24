@@ -1,15 +1,11 @@
 import menImg from "/men.jpg";
 import womenImg from "/women.jfif";
-import { type IPersonInfo } from "@/utils/module";
+import { getProfileUrl } from "@/utils/image";
 
 /** 獲取演員圖像 */
-export function getPersonImage(person: IPersonInfo) {
-  if (person.profile_path)
-    return import.meta.env.VITE_IMAGE_URL + person.profile_path;
+export function getPersonImage(person: { profile_path: string | null; gender: 1 | 2 }) {
+  const url = getProfileUrl(person.profile_path);
+  if (url) return url;
 
-  if (person.gender === 1) {
-    return womenImg;
-  } else {
-    return menImg;
-  }
+  return person.gender === 1 ? womenImg : menImg;
 }

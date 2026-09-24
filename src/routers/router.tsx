@@ -1,14 +1,18 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Home from "@/pages/Home";
 import { getMovieDetails } from "@/api/movie";
 import MainLayout from "@/layouts/MainLayout";
-import MovieDetails from "@/pages/MovieDetails";
-import Search from "@/pages/Search";
-import PersonDetails from "@/pages/PersonDetails";
-import Favorite from "@/pages/Favorite";
-import NotFound from "@/pages/NotFound";
 import ErrorBoundaryPage from "@/components/ErrorBoundaryPage";
 import { getPersonDetails } from "@/api/person";
+
+/* eslint-disable react-refresh/only-export-components -- route config file: lazy-loaded
+   page components necessarily sit alongside the non-component RouthPath/router exports */
+const Home = lazy(() => import("@/pages/Home"));
+const MovieDetails = lazy(() => import("@/pages/MovieDetails"));
+const Search = lazy(() => import("@/pages/Search"));
+const PersonDetails = lazy(() => import("@/pages/PersonDetails"));
+const Favorite = lazy(() => import("@/pages/Favorite"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 
 export const RouthPath = {
   home: "/",

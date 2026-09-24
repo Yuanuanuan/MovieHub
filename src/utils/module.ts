@@ -5,8 +5,8 @@ export interface MovieInfoRes {
 /** Movie data */
 export interface MovieInfo {
   id: string;
-  poster_path: string;
-  backdrop_path: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
   overview: string;
   title: string;
   release_date: string;
@@ -31,7 +31,7 @@ export interface IMovieDetails extends MovieInfo {
 export interface FavoriteMovie {
   id: string;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
   vote_average: number;
 }
 
@@ -54,7 +54,7 @@ export interface MovieCast {
   id: number;
   gender: 1 | 2;
   name: string;
-  profile_path: string;
+  profile_path: string | null;
   character: string;
 }
 
@@ -69,7 +69,7 @@ export interface IPersonInfo {
   gender: 1 | 2;
   name: string;
   place_of_birth: string;
-  profile_path: string;
+  profile_path: string | null;
   birthday: string;
   known_for_department: string;
   external_ids: PersonExternalIds;

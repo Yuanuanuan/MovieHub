@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/style.css");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Bebas+Neue&display=swap");
 
 @tailwind base;
@@ -88,6 +89,26 @@
   animation: hero-dash-fill 5.5s linear forwards;
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.animate-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #1c1c1f 25%,
+    #2a2a30 37%,
+    #1c1c1f 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -100,7 +121,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background: #141414;
-  font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+  font-family: "LXGW WenKai TC", "Noto Sans TC", "PingFang TC", sans-serif;
   position: relative;
 }
 

@@ -1,15 +1,18 @@
 import SocialMedia from "@/components/SocialMedia";
 import { type IPersonInfo } from "@/utils/module";
 import { getPersonImage } from "@/utils/person";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 
 function PersonInfo({ personInfo }: { personInfo: IPersonInfo }) {
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start gap-6 px-4 md:px-16">
       <div className="flex-none w-28 md:w-[200px] -mt-16 md:-mt-20 relative z-10">
-        <img
+        <ImageWithSkeleton
           src={getPersonImage(personInfo)}
           alt="演員照片"
-          className="w-full aspect-[2/3] object-cover rounded-lg shadow-2xl border-4 border-black"
+          loading="eager"
+          className="w-full aspect-[2/3] rounded-lg shadow-2xl border-4 border-black"
+          imgClassName="w-full h-full object-cover rounded-lg"
         />
       </div>
 

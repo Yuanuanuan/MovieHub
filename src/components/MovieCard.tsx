@@ -1,12 +1,16 @@
+import { memo } from "react";
 import { MovieInfo } from "@/utils/module";
 import { Link } from "react-router-dom";
 import FavoriteButton from "@/components/FavoriteButton";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import { getPosterUrl } from "@/utils/image";
 import starIcon from "/star.svg";
 
 interface MainMovieCardProps {
   movie: MovieInfo;
   rank?: number;
   size?: "default" | "compact";
+  loading?: "lazy" | "eager";
 }
 
 const SIZE_CLASSES: Record<"default" | "compact", string> = {
@@ -14,11 +18,12 @@ const SIZE_CLASSES: Record<"default" | "compact", string> = {
   compact: "w-32 sm:w-40 md:w-[200px] h-[192px] sm:h-[240px] md:h-[300px]",
 };
 
-const MainMovieCard = ({
+const MainMovieCard = memo(function MainMovieCard({
   movie,
   rank,
   size = "default",
-}: MainMovieCardProps) => {
+  loading = "lazy",
+}: MainMovieCardProps) {
   return (
     <div
       key={movie.id}
@@ -43,12 +48,12 @@ const MainMovieCard = ({
         className="group/card relative z-10 block h-full transition-opacity group-hover:opacity-70 hover:!opacity-100"
       >
         <div className="relative h-full rounded-[10px] overflow-hidden transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:scale-105 hover:-translate-y-1">
-          <img
-            width={"100%"}
-            height={"100%"}
-            src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
-            className="w-full h-full object-cover cursor-pointer shadow-xl shadow-gray-900 main-movie-card"
+          <ImageWithSkeleton
+            src={getPosterUrl(movie.poster_path)}
             alt="電影海報"
+            loading={loading}
+            className="w-full h-full"
+            imgClassName="w-full h-full object-cover cursor-pointer shadow-xl shadow-gray-900 main-movie-card"
           />
           <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity pointer-events-none">
             <h3 className="text-sm font-bold text-white line-clamp-1">
@@ -72,6 +77,6 @@ const MainMovieCard = ({
       </Link>
     </div>
   );
-};
+});
 
 export default MainMovieCard;

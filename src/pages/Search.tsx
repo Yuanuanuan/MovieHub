@@ -1,10 +1,13 @@
 import { RouthPath } from "@/routers/router";
 import { MovieInfo } from "@/utils/module";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getNowPlayingMovieList, searchMovies } from "@/api/movie";
+import { hasPoster, getPosterUrl } from "@/utils/image";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import SearchIcon from "@/components/SearchIcon";
 
-let timer: number;
+const DEBOUNCE_MS = 500;
 
 function Search() {
   const navigate = useNavigate();
@@ -16,25 +19,48 @@ function Search() {
     setSearch(e.target.value);
   }
 
-  const fetchData = useCallback(async () => {
-    const res = await searchMovies(search);
-    if (res?.data.results) setMovieList(res?.data.results);
-  }, [search]);
+  function handleClear() {
+    setSearch("");
+    searchInput.current?.focus();
+  }
 
-  const fetchAllMovie = useCallback(async () => {
-    const res = await getNowPlayingMovieList();
-    if (res) setMovieList(res);
+  const fetchData = useCallback(
+    async (signal: AbortSignal) => {
+      try {
+        const res = await searchMovies(search, 1, signal);
+        if (res?.data.results) setMovieList(res.data.results.filter(hasPoster));
+      } catch {
+        // aborted by a newer keystroke, or the request failed — either way
+        // a newer request (or the empty-query branch) will replace this state
+      }
+    },
+    [search]
+  );
+
+  const fetchAllMovie = useCallback(async (signal: AbortSignal) => {
+    try {
+      const res = await getNowPlayingMovieList(1, signal);
+      if (res) setMovieList(res.filter(hasPoster));
+    } catch {
+      // aborted or failed — ignore
+    }
   }, []);
 
   useEffect(() => {
-    if (search) {
-      timer = setTimeout(fetchData, 500);
+    const controller = new AbortController();
+    let debounceId: number | undefined;
+
+    if (search.trim()) {
+      debounceId = window.setTimeout(() => {
+        fetchData(controller.signal);
+      }, DEBOUNCE_MS);
     } else {
-      fetchAllMovie();
+      fetchAllMovie(controller.signal);
     }
 
     return () => {
-      clearTimeout(timer);
+      window.clearTimeout(debounceId);
+      controller.abort();
     };
   }, [fetchAllMovie, fetchData, search]);
 
@@ -55,13 +81,31 @@ function Search() {
             <path d="M15 4l-8 8 8 8 1.4-1.4L9.8 12l6.6-6.6z" />
           </svg>
         </button>
-        <input
-          ref={searchInput}
-          className="flex-1 max-w-[500px] mx-auto h-[45px] bg-white text-black rounded-[45px] pl-4 bg-transparent border-none outline-none text-xl"
-          type="text"
-          placeholder="搜尋電影名稱..."
-          onChange={handleChange}
-        />
+        <div className="relative flex-1 max-w-[500px] mx-auto">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 fill-slate-400 pointer-events-none" />
+          <input
+            ref={searchInput}
+            value={search}
+            type="text"
+            inputMode="search"
+            autoComplete="off"
+            placeholder="搜尋電影名稱..."
+            onChange={handleChange}
+            className="w-full h-[45px] appearance-none bg-white/10 text-white placeholder:text-slate-400 rounded-full pl-11 pr-11 border border-white/15 outline-none transition-colors focus:border-primary focus:bg-white/15"
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={handleClear}
+              aria-label="清除搜尋"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7l-1.4-1.4L9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z" />
+              </svg>
+            </button>
+          )}
+        </div>
         <div className="flex-none w-10" aria-hidden="true" />
       </div>
       <div className="px-4 w-full min-h-[85vh] flex flex-wrap gap-3 justify-center content-start">
@@ -70,10 +114,12 @@ function Search() {
             return (
               <div className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px]" key={movie.id}>
                 <Link to={RouthPath.details + "/" + movie.id}>
-                  <img
-                    src={import.meta.env.VITE_IMAGE_URL + movie.poster_path}
+                  <ImageWithSkeleton
+                    src={getPosterUrl(movie.poster_path)}
                     alt="電影海報"
-                    className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px] object-cover rounded-md"
+                    loading="lazy"
+                    className="w-36 sm:w-48 md:w-60 h-[220px] sm:h-[260px] md:h-[320px] rounded-md"
+                    imgClassName="w-full h-full object-cover rounded-md"
                   />
                 </Link>
               </div>

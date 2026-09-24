@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import starIcon from "/star.svg";
 import { getPopularMovieList, getMovieDetails } from "@/api/movie";
 import FavoriteButton from "@/components/FavoriteButton";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import { getBackdropUrl } from "@/utils/image";
 import { RouthPath } from "@/routers/router";
 import { IMovieDetails, MovieInfo } from "@/utils/module";
 import { getGenreName } from "@/constants/genres";
@@ -17,7 +19,6 @@ function Hero() {
     null
   );
   const [playing, setPlaying] = useState(false);
-  const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
 
   useEffect(() => {
@@ -50,10 +51,15 @@ function Hero() {
     setActiveIndex((i) => (i + 1) % candidates.length);
   }
 
-  if (!activeDetails) return null;
+  if (!activeDetails) {
+    return (
+      <section className="relative w-full h-[70vh] max-h-[560px] overflow-hidden rounded-2xl mb-10 bg-[#1c1c1f]">
+        <div className="absolute inset-0 animate-shimmer" />
+      </section>
+    );
+  }
 
-  const backdropUrl =
-    import.meta.env.VITE_IMAGE_URL + activeDetails.backdrop_path;
+  const backdropUrl = getBackdropUrl(activeDetails.backdrop_path);
   const hours = Math.floor(activeDetails.runtime / 60) || 0;
   const mins = activeDetails.runtime % 60 || 0;
   const trailerKey = activeDetails.videos.results[0]?.key;
@@ -61,8 +67,6 @@ function Hero() {
   return (
     <section
       className="relative w-full h-[70vh] max-h-[560px] overflow-hidden rounded-2xl mb-10"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
       onFocus={() => setFocused(true)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) {
@@ -80,10 +84,12 @@ function Hero() {
           />
         ) : (
           <div key={activeDetails.id} className="absolute inset-0 animate-hero-fade">
-            <img
+            <ImageWithSkeleton
               src={backdropUrl}
               alt={activeDetails.title}
-              className="w-full h-full object-cover"
+              loading="eager"
+              className="w-full h-full"
+              imgClassName="w-full h-full object-cover"
             />
             <div
               className="absolute inset-0 opacity-50 mix-blend-overlay pointer-events-none"
@@ -194,8 +200,7 @@ function Hero() {
                     key={activeIndex}
                     className="block h-full bg-primary animate-hero-dash-fill"
                     style={{
-                      animationPlayState:
-                        hovering || focused ? "paused" : "running",
+                      animationPlayState: focused ? "paused" : "running",
                     }}
                     onAnimationEnd={handleDashFillComplete}
                   />

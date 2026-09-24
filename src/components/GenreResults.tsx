@@ -1,26 +1,61 @@
-import { useEffect, useState } from "react";
-import { getMoviesByGenre } from "@/api/movie";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getMoviesByGenreWithMeta } from "@/api/movie";
 import { MovieInfo } from "@/utils/module";
+import { hasPoster } from "@/utils/image";
 import MovieCard from "@/components/MovieCard";
 import { CURATED_GENRES } from "@/constants/genres";
 
 function GenreResults({ genreId }: { genreId: number }) {
   const [movies, setMovies] = useState<MovieInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const pageRef = useRef(1);
+  const loadingRef = useRef(false);
+  const requestIdRef = useRef(0);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  const loadPage = useCallback(
+    (page: number, replace: boolean) => {
+      const requestId = ++requestIdRef.current;
+      loadingRef.current = true;
+      setLoading(true);
+      getMoviesByGenreWithMeta(genreId, page).then(
+        ({ results, totalPages }) => {
+          if (requestIdRef.current !== requestId) return;
+          const filtered = (results as MovieInfo[]).filter(hasPoster);
+          setMovies((prev) => (replace ? filtered : [...prev, ...filtered]));
+          setHasMore(page < totalPages);
+          pageRef.current = page;
+          loadingRef.current = false;
+          setLoading(false);
+        }
+      );
+    },
+    [genreId]
+  );
 
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    getMoviesByGenre(genreId).then((results) => {
-      if (!cancelled) {
-        setMovies(results);
-        setLoading(false);
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [genreId]);
+    setMovies([]);
+    setHasMore(true);
+    pageRef.current = 1;
+    loadPage(1, true);
+  }, [genreId, loadPage]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        if (loadingRef.current || !hasMore) return;
+        loadPage(pageRef.current + 1, false);
+      },
+      { rootMargin: "400px" }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loadPage]);
 
   const label = CURATED_GENRES.find((g) => g.id === genreId)?.label ?? "分類";
 
@@ -32,11 +67,14 @@ function GenreResults({ genreId }: { genreId: number }) {
           <p className="text-slate-400 text-lg">這個分類目前沒有電影。</p>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-3">
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} loading="lazy" />
+            ))}
+          </div>
+          {hasMore && <div ref={sentinelRef} className="h-2 w-full" />}
+        </>
       )}
     </section>
   );

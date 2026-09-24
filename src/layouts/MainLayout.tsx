@@ -1,10 +1,10 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
 interface MainSelectorType {
   main: {
@@ -46,11 +46,14 @@ export default function MainLayout() {
   return (
     <>
       <Header />
+      <ScrollRestoration />
       <div
         key={location.pathname}
-        className="w-full min-h-[calc(100vh-64px)] px-4 md:px-16 page-transition"
+        className="w-full min-h-[calc(100vh-80px)] px-4 md:px-16 page-transition"
       >
-        <Outlet />
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
       </div>
       <Footer />
       {loading && <Loading />}
